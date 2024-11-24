@@ -1,0 +1,11 @@
+name: Github Actions basics
+on: [push]
+jobs:
+  job_name_here:
+    runs-on: [ubuntu-latest]
+    # step 1
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+        
+        run: echo "Hello, world"
