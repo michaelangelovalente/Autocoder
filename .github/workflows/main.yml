@@ -5,7 +5,7 @@ jobs:
     runs-on: [ubuntu-latest]
     # step 1
     steps:
-      - name: Checkout Code
-        uses: actions/checkout@v4
-        
-        run: echo "Hello, world"
+    - name: Checkout Code
+      uses: actions/checkout@v4
+    - name: Run Hello world  
+      run: echo "Hello, world"
