@@ -6,15 +6,16 @@ jobs:
   access_issue_info:
     runs-on: ubuntu-latest
 
-    env:
-      ISSUE_NUMBER: ${{ github.event.issue.number }}
-      ISSUE_BODY: ${{ github.event.issue.body }}
-      ISSUE_ASSIGNEES: ${{ join(github.event.issue.assignees.*.login, ', ') }}
-      ISSUE_LABELS: ${{ join(github.event.issue.labels.*.name, ', ') }}
 
     steps:
       - name: Set env Issue Information
         uses: actions/checkout@v4
+        env:
+          ISSUE_NUMBER: ${{ github.event.issue.number }}
+          ISSUE_BODY: ${{ github.event.issue.body }}
+          ISSUE_ASSIGNEES: ${{ join(github.event.issue.assignees.*.login, ', ') }}
+          ISSUE_LABELS: ${{ join(github.event.issue.labels.*.name, ', ') }}
+          
       - name: Print Issue information
         run: |
           echo "Issue Number: ${ISSUE_NUMBER}"     
