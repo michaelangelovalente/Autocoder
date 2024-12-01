@@ -8,8 +8,9 @@ jobs:
 
 
     steps:
-      - name: Set env Issue Information
+      - name: Checkout actions 
         uses: actions/checkout@v4
+      - name: Print Issue Information  
         env:
           ISSUE_TITLE: ${{ github.event.issue.title }}
           ISSUE_NUMBER: ${{ github.event.issue.number }}
@@ -17,7 +18,7 @@ jobs:
           ISSUE_ASSIGNEES: ${{ join(github.event.issue.assignees.*.login, ', ') }}
           ISSUE_LABELS: ${{ join(github.event.issue.labels.*.name, ', ') }}
 
-      - name: Print Issue information
+      # - name: Print Issue information
         run: |
           echo "Issue Title: ${ISSUE_TITLE}"
           echo "Issue Number: ${ISSUE_NUMBER}"     
