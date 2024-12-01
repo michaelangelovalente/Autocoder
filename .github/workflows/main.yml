@@ -19,7 +19,7 @@ jobs:
 
       - name: Print Issue information
         run: |
-          eho "Issue Title: ${ISSUE_TITLE}"
+          echo "Issue Title: ${ISSUE_TITLE}"
           echo "Issue Number: ${ISSUE_NUMBER}"     
           echo "Issue Body: ${ISSUE_BODY}"     
           echo "Issue Assignee(s): ${ISSUE_ASSIGNEE}"     
