@@ -22,5 +22,5 @@ jobs:
           echo "Issue Title: ${ISSUE_TITLE}"
           echo "Issue Number: ${ISSUE_NUMBER}"     
           echo "Issue Body: ${ISSUE_BODY}"     
-          echo "Issue Assignee(s): ${ISSUE_ASSIGNEE}"     
-          echo "Issue Label(s): ${ISSUE_LABELS}"
+          echo "Issue Assignees: ${ISSUE_ASSIGNEE}"     
+          echo "Issue Labels: ${ISSUE_LABELS}"
