@@ -1,11 +1,23 @@
-name: Workflow Name
-on: [push]
+name: Access Issue Information
+on:
+  issues:
+    types: [opened, reopened]
 jobs:
-  say_hello:
+  access_issue_info:
     runs-on: ubuntu-latest
-    # step 1
+
+    env:
+      ISSUE_NUMBER: ${{ github.event.issue.number }}
+      ISSUE_BODY: ${{ github.event.issue.body }}
+      ISSUE_ASSIGNEES: ${{ join(github.event.issue.assignees.*.login, ', ') }}
+      ISSUE_LABELS: ${{ join(github.event.issue.labels.*.name, ', ') }}
+
     steps:
-    - name: Checkout Code
-      uses: actions/checkout@v4
-    - name: Greeting Message 
-      run: echo "Hello, world"
+      - name: Set env Issue Information
+        uses: actions/checkout@v4
+      - name: Print Issue information
+        run: |
+          echo "Issue Number: ${ISSUE_NUMBER}"     
+          echo "Issue Body: ${ISSUE_BODY}"     
+          echo "Issue Assignee(s): ${ISSUE_ASSIGNEE}"     
+          echo "Issue Label(s): ${ISSUE_LABELS}"
