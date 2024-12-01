@@ -11,13 +11,15 @@ jobs:
       - name: Set env Issue Information
         uses: actions/checkout@v4
         env:
+          ISSUE_TITLE: ${{ github.event.issue.title }}
           ISSUE_NUMBER: ${{ github.event.issue.number }}
           ISSUE_BODY: ${{ github.event.issue.body }}
           ISSUE_ASSIGNEES: ${{ join(github.event.issue.assignees.*.login, ', ') }}
           ISSUE_LABELS: ${{ join(github.event.issue.labels.*.name, ', ') }}
-          
+
       - name: Print Issue information
         run: |
+          eho "Issue Title: ${ISSUE_TITLE}"
           echo "Issue Number: ${ISSUE_NUMBER}"     
           echo "Issue Body: ${ISSUE_BODY}"     
           echo "Issue Assignee(s): ${ISSUE_ASSIGNEE}"     
