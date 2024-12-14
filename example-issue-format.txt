@@ -1,0 +1,21 @@
+Problem Description:
+You are tasked with setting a Docker Compose configuration for a web application.
+Create a Docker Compose file that defines two services: a frontend service using an NGNIX image and a vackend service usign a Node.js image.
+
+Services
+    - Frontend
+        Image: ngnix (latest version)
+        Ports: 80:80
+        Volumes: ./frontend:/usr/share/ngnix/html
+
+    - Backend
+        Image: Node (latest version)
+        Ports: 3000:3000
+        Volumes: ./backend:/usr/src/app
+    
+    - Environment
+        Node.js (latest version)
+        NGNIX version (latest version)
+
+
+        
