@@ -3,25 +3,38 @@ on:
   issues:
     types: [opened, reopened]
 jobs:
-  access_issue_info:
-    runs-on: ubuntu-latest
+  # access_issue_info:
+  #   runs-on: ubuntu-latest
 
+  #   steps:
+  #     - name: Checkout actions 
+  #       uses: actions/checkout@v4
+  #     - name: Print Issue Information  
+  #       env:
+  #         ISSUE_TITLE: ${{ github.event.issue.title }}
+  #         ISSUE_NUMBER: ${{ github.event.issue.number }}
+  #         ISSUE_BODY: ${{ github.event.issue.body }}
+  #         ISSUE_ASSIGNEES: ${{ join(github.event.issue.assignees.*.login, ', ') }}
+  #         ISSUE_LABELS: ${{ join(github.event.issue.labels.*.name, ', ') }}
+
+  #     # - name: Print Issue information
+  #       run: |
+  #         echo "Issue Title: ${ISSUE_TITLE}"
+  #         echo "Issue Number: ${ISSUE_NUMBER}"     
+  #         echo "Issue Body: ${ISSUE_BODY}"     
+  #         echo "Issue Assignees: ${ISSUE_ASSIGNEES}"     
+  #         echo "Issue Labels: ${ISSUE_LABELS}"
+
+
+  code_generation:
+    runs-on: ubuntu-latest
+    env: 
+      REPO_NAME: $GITHUB_ACTION_REPOSITORY
+      ISSUE_NUM: ${{github.event.issue.number}}
 
     steps:
-      - name: Checkout actions 
-        uses: actions/checkout@v4
-      - name: Print Issue Information  
-        env:
-          ISSUE_TITLE: ${{ github.event.issue.title }}
-          ISSUE_NUMBER: ${{ github.event.issue.number }}
-          ISSUE_BODY: ${{ github.event.issue.body }}
-          ISSUE_ASSIGNEES: ${{ join(github.event.issue.assignees.*.login, ', ') }}
-          ISSUE_LABELS: ${{ join(github.event.issue.labels.*.name, ', ') }}
-
-      # - name: Print Issue information
+      - name: Set env variables
         run: |
-          echo "Issue Title: ${ISSUE_TITLE}"
-          echo "Issue Number: ${ISSUE_NUMBER}"     
-          echo "Issue Body: ${ISSUE_BODY}"     
-          echo "Issue Assignees: ${ISSUE_ASSIGNEES}"     
-          echo "Issue Labels: ${ISSUE_LABELS}"
+          echo "REPO NAME: ${REPO_NAME}"
+          echo "ISSUE NUM: ${ISSUE_NUM}"
+
