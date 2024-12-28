@@ -29,12 +29,17 @@ jobs:
   code_generation:
     runs-on: ubuntu-latest
     env: 
-      REPO_NAME: ${{github.repository.name}} 
+      # REPO_NAME: ${{github.repository.name}} 
+      REPO_NAME: $GITHUB_REPOSITORY
       ISSUE_NUM: ${{github.event.issue.number}}
+      OPENAI_API_KEY: ${{secret.OPENAI_KEY}}
+      GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
 
     steps:
       - name: Set env variables
         run: |
           echo "REPO NAME: ${REPO_NAME}"
           echo "ISSUE NUM: ${ISSUE_NUM}"
+          echo "OPENAI API KEY: ${OPENAI_API_KEY}"
+          echo "GITHUB TOKEN: ${GITHUB_TOKEN}"
 
