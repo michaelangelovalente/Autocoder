@@ -9,7 +9,7 @@ env:
     ISSUE_ASSIGNEES: ${{ join(github.event.issue.assignees.*.login, ', ') }}
     ISSUE_LABELS: ${{ join(github.event.issue.labels.*.name, ', ') }}
 
-    REPO_NAME: $GITHUB_REPOSITORY
+    REPO_NAME: ${{github.repository}}
     # ISSUE_NUM: ${{github.event.issue.number}}
     OPENAI_API_KEY: ${{secrets.OPENAI_KEY}}
     GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
