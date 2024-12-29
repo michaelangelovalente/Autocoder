@@ -2,38 +2,37 @@ name: Access Issue Information
 on:
   issues:
     types: [opened, reopened]
+env:
+    ISSUE_TITLE: ${{ github.event.issue.title }}
+    ISSUE_NUMBER: ${{ github.event.issue.number }}
+    ISSUE_BODY: ${{ github.event.issue.body }}
+    ISSUE_ASSIGNEES: ${{ join(github.event.issue.assignees.*.login, ', ') }}
+    ISSUE_LABELS: ${{ join(github.event.issue.labels.*.name, ', ') }}
+
+    REPO_NAME: $GITHUB_REPOSITORY
+    # ISSUE_NUM: ${{github.event.issue.number}}
+    OPENAI_API_KEY: ${{secrets.OPENAI_KEY}}
+    GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
+
 jobs:
-  # access_issue_info:
-  #   runs-on: ubuntu-latest
+  access_issue_info:
+    runs-on: ubuntu-latest
 
-  #   steps:
-  #     - name: Checkout actions 
-  #       uses: actions/checkout@v4
-  #     - name: Print Issue Information  
-  #       env:
-  #         ISSUE_TITLE: ${{ github.event.issue.title }}
-  #         ISSUE_NUMBER: ${{ github.event.issue.number }}
-  #         ISSUE_BODY: ${{ github.event.issue.body }}
-  #         ISSUE_ASSIGNEES: ${{ join(github.event.issue.assignees.*.login, ', ') }}
-  #         ISSUE_LABELS: ${{ join(github.event.issue.labels.*.name, ', ') }}
+    steps:
+      - name: Checkout actions 
+        uses: actions/checkout@v4
 
-  #     # - name: Print Issue information
-  #       run: |
-  #         echo "Issue Title: ${ISSUE_TITLE}"
-  #         echo "Issue Number: ${ISSUE_NUMBER}"     
-  #         echo "Issue Body: ${ISSUE_BODY}"     
-  #         echo "Issue Assignees: ${ISSUE_ASSIGNEES}"     
-  #         echo "Issue Labels: ${ISSUE_LABELS}"
+      - name: Print Issue Information  
+        run: |
+          echo "Issue Title: ${ISSUE_TITLE}"
+          echo "Issue Number: ${ISSUE_NUMBER}"     
+          echo "Issue Body: ${ISSUE_BODY}"     
+          echo "Issue Assignees: ${ISSUE_ASSIGNEES}"     
+          echo "Issue Labels: ${ISSUE_LABELS}"
 
 
   code_generation:
     runs-on: ubuntu-latest
-    env: 
-      # REPO_NAME: ${{github.repository.name}} 
-      REPO_NAME: $GITHUB_REPOSITORY
-      ISSUE_NUM: ${{github.event.issue.number}}
-      OPENAI_API_KEY: ${{secrets.OPENAI_KEY}}
-      GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
 
     steps:
       - name: Set env variables
@@ -42,4 +41,8 @@ jobs:
           echo "ISSUE NUM: ${ISSUE_NUM}"
           echo "OPENAI API KEY: ${OPENAI_API_KEY}"
           echo "GITHUB TOKEN: ${GITHUB_TOKEN}"
+      
+      # - name: Label identier for bot
+      #   - if: contains(env.ISSUE_LABELS)
+
 
