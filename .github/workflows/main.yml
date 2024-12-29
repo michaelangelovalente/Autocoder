@@ -29,6 +29,7 @@ jobs:
           echo "Issue Body: ${ISSUE_BODY}"     
           echo "Issue Assignees: ${ISSUE_ASSIGNEES}"     
           echo "Issue Labels: ${ISSUE_LABELS}"
+          echo "Issue repo name: ${REPO_NAME}"
 
 
   code_generation:
@@ -38,7 +39,7 @@ jobs:
       - name: Set env variables
         run: |
           echo "REPO NAME: ${REPO_NAME}"
-          echo "ISSUE NUM: ${ISSUE_NUM}"
+          echo "ISSUE NUM: ${ISSUE_NUMBER}"
           echo "OPENAI API KEY: ${OPENAI_API_KEY}"
           echo "GITHUB TOKEN: ${GITHUB_TOKEN}"
       
