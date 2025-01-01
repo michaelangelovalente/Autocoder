@@ -63,7 +63,7 @@ jobs:
     steps:
       - name: output label exists  
         run: |
-          echo " ${needs.code_generation.outputs.label_status}
+          echo " ${needs.code_generation.outputs.label_status}"
 
 
 
