@@ -57,13 +57,19 @@ jobs:
           echo "Label 'autocoder-bot' does not exist..."
           echo "LABEL_EXISTS=false" >> $GITHUB_ENV   
 
-  test_env_job:
+  autocode_bot_code_gen:
     needs: code_generation
     runs-on: ubuntu-latest
     steps:
-      - name: output label exists  
+      - name: Checkout repository
+        if: ${{ needs.code_generation.outputs.label_status }}
+        uses: actions/checkout@v4
+
+      - name: Output label exists  
+        if: ${{ needs.code_generation.outputs.label_status }}
         run: |
-          echo " ${{ needs.code_generation.outputs.label_status }}"
+          chmod u+x ./scripts/hello.bash
+          bash ./scripts/hello.bash 
 
 
 
