@@ -7,13 +7,13 @@
 # OPENAI_API_KEY="$4"
 
 
-GITHUB_TOKEN_1=${GITHUB_TOKEN}
+# GITHUB_TOKEN_1=${GITHUB_TOKEN}
 REPOSITORY=${REPO_NAME}
 ISSUE_NUMBER=${ISSUE_NUMBER}
 OPENAI_API_KEY=${OPENAI_API_KEY}
 
 echo "HELLO TEST";
-echo "Using token: $GITHUB_TOKEN_1"
+echo "Using token: $GITHUB_TOKEN"
 echo "Using OpenAI key: $OPENAI_API_KEY"
 echo "Issue number: $ISSUE_NUMBER"
 echo "Repository: $REPOSITORY"
