@@ -65,11 +65,13 @@ jobs:
         if: ${{ needs.code_generation.outputs.label_status }}
         uses: actions/checkout@v4
 
-      - name: Output label exists  
+      - name: Run gpt interaction script
         if: ${{ needs.code_generation.outputs.label_status }}
         run: |
           chmod u+x ./scripts/hello.bash
           bash ./scripts/hello.bash 
+#          # chmod u+x ./scripts/gpt_interaction_script.sh
+#          # bash ./scripts/gpt_interaction_script.sh 
 
 
 
