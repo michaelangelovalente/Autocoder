@@ -40,10 +40,11 @@ jobs:
         run: |
           echo "REPO NAME: ${REPO_NAME}"
           echo "ISSUE NUM: ${ISSUE_NUMBER}"
-          echo "OPENAI API KEY: ${OPENAI_API_KEY}"
           echo "GITHUB TOKEN: ${GITHUB_TOKEN}"
-      
-      # - name: Label identier for bot
-      #   - if: contains(env.ISSUE_LABELS)
+          echo "OPENAI API KEY: ${OPENAI_API_KEY}"
+      - name: Check label is autocoder-bot
+        if: contains(github.event.issue.labels.*.name, 'autocoder-bot')
+        run: |
+         echo "CONTAINS CORRECT LABEL!"
 
 
