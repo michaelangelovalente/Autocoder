@@ -35,7 +35,7 @@ jobs:
   code_generation:
     runs-on: ubuntu-latest
     outputs:
-      LABEL_STATUS: ${{ env.LABEL_EXISTS }}
+      label_status: ${{ env.LABEL_EXISTS }}
     steps:
       - name: Set env variables
         run: |
@@ -43,11 +43,19 @@ jobs:
           echo "ISSUE NUM: ${ISSUE_NUMBER}"
           echo "GITHUB TOKEN: ${GITHUB_TOKEN}"
           echo "OPENAI API KEY: ${OPENAI_API_KEY}"
+
       - name: Label exists env variable    
         if: contains(github.event.issue.labels.*.name, 'autocoder-bot')
         run: |
          echo "Label 'autocoder-bot' exists..."
          echo "LABEL_EXISTS=true" >> $GITHUB_ENV 
+
+       # Add else condition to set false
+      - name: Label doesn't exist env variable
+        if: ${{ !contains(github.event.issue.labels.*.name, 'autocoder-bot') }}
+        run: |
+          echo "Label 'autocoder-bot' does not exist..."
+          echo "LABEL_EXISTS=false" >> $GITHUB_ENV   
 
   test_env_job:
     needs: code_generation
@@ -55,7 +63,7 @@ jobs:
     steps:
       - name: output label exists  
         run: |
-          echo " ${needs.code_generation.outputs.LABEL_STATUS}
+          echo " ${needs.code_generation.outputs.label_status}
 
 
 
