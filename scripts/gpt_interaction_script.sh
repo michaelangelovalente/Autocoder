@@ -19,13 +19,22 @@ fetch_issue_details() {
 }
 
 # Function to send prompt to the ChatGPT model (OpenAI API)
+# send_prompt_to_chatgpt() {
+# curl -s -X POST "https://api.openai.com/v1/chat/completions" \
+#     -H "Authorization: Bearer $OPENAI_API_KEY" \
+#     -H "Content-Type: application/json" \
+#     -d "{\"model\": \"gpt-4\", \"messages\": $MESSAGES_JSON, \"max_tokens\": 500}"
+# }
 send_prompt_to_chatgpt() {
 curl -s -X POST "https://api.openai.com/v1/chat/completions" \
     -H "Authorization: Bearer $OPENAI_API_KEY" \
     -H "Content-Type: application/json" \
-    -d "{\"model\": \"gpt-4\", \"messages\": $MESSAGES_JSON, \"max_tokens\": 500}"
+    -d '{
+      "model": "gpt-4o",
+      "messages": '"$MESSAGES_JSON"',
+      "temperature": 0.7
+    }'
 }
-
 
 # Function to save code snippet to file
 save_to_file() {
