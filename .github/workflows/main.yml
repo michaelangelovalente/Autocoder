@@ -76,7 +76,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: autocoder-artifact
-          path: ./autocoder-bot/autocoder_bot.yml
+          path: ./autocoder-bot/docker-compose.yml
           if-no-files-found: error
           retention-days: 1
           # name: autocoder-bot-result
