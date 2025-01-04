@@ -7,10 +7,10 @@ set -e
 set -x
 
 # Get inputs from the environment
-GITHUB_TOKEN="$1"
-REPOSITORY="$2"
-ISSUE_NUMBER="$3"
-OPENAI_API_KEY="$4"
+# GITHUB_TOKEN="$1"
+REPOSITORY=${REPO_NAME}
+# ISSUE_NUMBER="$3"
+# OPENAI_API_KEY="$4"
 
 # Function to fetch issue details from GitHub API
 fetch_issue_details() {
@@ -30,7 +30,7 @@ curl -s -X POST "https://api.openai.com/v1/chat/completions" \
 # Function to save code snippet to file
 save_to_file() {
     #  Save the code snippets to files in a directory named "autocoder-bot" with the filename specified in the JSON object.
-    local filename="autocoder-bot/$1"
+    local filename="./autocoder-bot/$1"
     local code_snippet="$2"
 
     mkdir -p "$(dirname "$filename")"

@@ -69,9 +69,17 @@ jobs:
         if: ${{ needs.code_generation.outputs.label_status }}
         run: |
           chmod u+x ./scripts/hello.bash
-          bash ./scripts/hello.bash 
+          bash ./scripts/hello.bash
 #          # chmod u+x ./scripts/gpt_interaction_script.sh
 #          # bash ./scripts/gpt_interaction_script.sh 
+      - name: Upload gpt result as artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: autocoder-bot-result
+          path: test/hello-dir/hello.txt
+          if-no-files-found: error
+          retention-days: 1
 
+        
 
 
