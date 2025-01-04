@@ -70,8 +70,6 @@ jobs:
         run: |
            chmod u+x ./scripts/gpt_interaction_script.sh
            bash ./scripts/gpt_interaction_script.sh 
-#          # chmod u+x ./scripts/hello.bash
-#          # bash ./scripts/hello.bash
       - name: Upload gpt result as artifact
         uses: actions/upload-artifact@v4
         with:
@@ -79,10 +77,6 @@ jobs:
           path: ./autocoder-bot/docker-compose.yml
           if-no-files-found: error
           retention-days: 1
-          # name: autocoder-bot-result
-          # path: ./hello.txt
-          # if-no-files-found: error
-          # retention-days: 1
 
         
 
