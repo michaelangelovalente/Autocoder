@@ -89,7 +89,7 @@ jobs:
       
       - name: Display generated code
         run: |
-          cat ${{ steps.autocoder-result-id.download-path }}
+          ls ${{ steps.autocoder-result-id.download-path }}
           
 
           
