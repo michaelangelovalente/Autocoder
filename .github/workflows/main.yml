@@ -84,7 +84,7 @@ jobs:
         id: autocoder-result-id
         with:
           name: autocoder-artifact
-          path: ~/autocoder-resul/autcoder-output
+          path: ~/autocoder-artifact-dir/autocoder-result.yml
 
       
       - name: Display generated code
