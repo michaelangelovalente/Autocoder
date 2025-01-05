@@ -1,7 +1,7 @@
 name: Access Issue Information
 on:
   issues:
-    types: [opened, reopened]
+    types: [opened, reopened, labeled]
 env:
     ISSUE_TITLE: ${{ github.event.issue.title }}
     ISSUE_NUMBER: ${{ github.event.issue.number }}
