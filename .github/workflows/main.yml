@@ -91,13 +91,7 @@ jobs:
           echo "Current working Directory:"
           pwd
           echo -e "\nFull Directory Structure:"
-          ls -R ${{ steps.autocoder-result-id.download-path }} 
-          echo -e "\nDetailed Directory Structure:"
           ls -lR ${{ steps.autocoder-result-id.download-path }} 
-          echo -e "\nFile Contents:"
-          cat ${{ steps.autocoder-result-id.download-path }}/docker-compose.yml
-#          pwd ${{ steps.autocoder-result-id.download-path }}
-#          ls -R ${{ steps.autocoder-result-id.download-path }}
           
 
           
