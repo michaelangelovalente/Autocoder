@@ -91,11 +91,11 @@ jobs:
           echo "Current working Directory:"
           pwd
           echo -e "\nFull Directory Structure:"
-          ls -R ./download-artificat-result
+          ls -R ${{ steps.autocoder-result-id.download-path }} 
           echo -e "\nDetailed Directory Structure:"
-          ls-laR ./download-artifact-result 
+          ls-laR ${{ steps.autocoder-result-id.download-path }} 
           echo -e "\nFile Contents:"
-          cat ./download-artifact/docker-compose.yml
+          cat ${{ steps.autocoder-result-id.download-path }}/docker-compose.yml
 #          pwd ${{ steps.autocoder-result-id.download-path }}
 #          ls -R ${{ steps.autocoder-result-id.download-path }}
           
