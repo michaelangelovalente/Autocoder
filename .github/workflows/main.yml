@@ -84,12 +84,14 @@ jobs:
         id: autocoder-result-id
         with:
           name: autocoder-artifact
-          path: ./download-artifact-result
+          path: ~/download-artifact-result
       
       - name: Display generated code
         run: |
           echo "Current working Directory:"
           pwd
+          echo -e "\nDownload PATH:"
+          echo "${{ steps.autocoder-result-id.download-path }}"
           echo -e "\nFull Directory Structure:"
           ls -aR ${{ steps.autocoder-result-id.download-path }} 
           
