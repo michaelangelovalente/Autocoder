@@ -68,6 +68,7 @@ jobs:
       - name: Run gpt interaction script
         if: ${{ needs.code_generation.outputs.label_status }}
         run: |
+          echo "LABEL PRESENT STATUS: ${{ needs.code_generation.outputs.label_status }}" 
            chmod u+x ./scripts/script.sh
            bash ./scripts/script.sh 
 
