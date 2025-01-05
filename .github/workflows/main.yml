@@ -84,13 +84,20 @@ jobs:
         id: autocoder-result-id
         with:
           name: autocoder-artifact
-          path: ~/autocoder-artifact-dir/autocoder-result.yml
-
+          path: ./download-artifact-result
       
       - name: Display generated code
         run: |
-          pwd ${{ steps.autocoder-result-id.download-path }}
-          ls -R ${{ steps.autocoder-result-id.download-path }}
+          echo "Current working Directory:"
+          pwd
+          echo -e "\nFull Directory Structure:"
+          ls -R ./download-artificat-result
+          echo -e "\nDetailed Directory Structure:"
+          ls-laR ./download-artifact-result 
+          echo -e "\nFile Contents:"
+          cat ./download-artifact/docker-compose.yml
+#          pwd ${{ steps.autocoder-result-id.download-path }}
+#          ls -R ${{ steps.autocoder-result-id.download-path }}
           
 
           
