@@ -68,8 +68,8 @@ jobs:
       - name: Run gpt interaction script
         if: ${{ needs.code_generation.outputs.label_status }}
         run: |
-           chmod u+x ./scripts/gpt_interaction_script.sh
-           bash ./scripts/gpt_interaction_script.sh 
+           chmod u+x ./scripts/script.sh
+           bash ./scripts/script.sh 
 
       - name: Upload gpt result as artifact
         uses: actions/upload-artifact@v4
