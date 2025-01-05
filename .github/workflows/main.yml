@@ -91,9 +91,9 @@ jobs:
           echo "Current working Directory:"
           pwd
           echo -e "\nDownload PATH:"
-          echo "${{ steps.autocoder-result-id.download-path }}"
+          echo ~/download-artifact-result
           echo -e "\nFull Directory Structure:"
-          ls -aR ${{ steps.autocoder-result-id.download-path }} 
+          ls -aR ~/download-artifact-result 
           
 
           
