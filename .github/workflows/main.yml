@@ -66,11 +66,16 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Run gpt interaction script
-        if: ${{ needs.code_generation.outputs.label_status }}
+        if: ${{ needs.code_generation.outputs.label_status == 'true' }}
         run: |
           echo "LABEL PRESENT STATUS: ${{ needs.code_generation.outputs.label_status }}" 
            chmod u+x ./scripts/script.sh
            bash ./scripts/script.sh 
+
+      - name: Run gpt interaction script FALSE
+        if: ${{ needs.code_generation.outputs.label_status == 'false' }}
+        run: |
+          echo "LABEL PRESENT (FALSE) STATUS: ${{ needs.code_generation.outputs.label_status }}" 
 
       - name: Upload gpt result as artifact
         uses: actions/upload-artifact@v4
