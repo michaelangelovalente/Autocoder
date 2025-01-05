@@ -84,16 +84,17 @@ jobs:
         id: autocoder-result-id
         with:
           name: autocoder-artifact
-          path: ~/download-artifact-result
+          path: ~/autocoder-artifact
       
-      - name: Display generated code
+      - name: Display generated code using ls
         run: |
-          echo "Current working Directory:"
-          pwd
-          echo -e "\nDownload PATH:"
-          echo ~/download-artifact-result
-          echo -e "\nFull Directory Structure:"
-          ls -aR ~/download-artifact-result 
+          ls -aR ~/autocoder-artifact
+#          echo "Current working Directory:"
+#          pwd
+#          echo -e "\nDownload PATH:"
+#          echo ~/download-artifact-result
+#          echo -e "\nFull Directory Structure:"
+#          ls -aR ~/download-artifact-result 
           
 
           
