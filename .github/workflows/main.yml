@@ -90,7 +90,7 @@ jobs:
       - name: Display generated code
         run: |
           pwd ${{ steps.autocoder-result-id.download-path }}
-          ls ${{ steps.autocoder-result-id.download-path }}
+          ls -R ${{ steps.autocoder-result-id.download-path }}
           
 
           
