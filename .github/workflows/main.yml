@@ -57,12 +57,12 @@ jobs:
           echo "Label 'autocoder-bot' does not exist..."
           echo "LABEL_EXISTS=false" >> $GITHUB_ENV   
 
-  autocode_bot_code_gen:
+  autocode_bot_code_gen_gpt_interaction:
     needs: code_generation
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
-        if: ${{ needs.code_generation.outputs.label_status }}
+        if: ${{ needs.code_generation.outputs.label_status == 'true' }}
         uses: actions/checkout@v4
 
       - name: Run gpt interaction script
@@ -71,12 +71,11 @@ jobs:
           echo "LABEL PRESENT STATUS: ${{ needs.code_generation.outputs.label_status }}" 
            chmod u+x ./scripts/script.sh
            bash ./scripts/script.sh 
-
-      - name: Run gpt interaction script FALSE
-        if: ${{ needs.code_generation.outputs.label_status == 'false' }}
-        run: |
-          echo "LABEL PRESENT (FALSE) STATUS: ${{ needs.code_generation.outputs.label_status }}" 
-
+  
+  autocode_not_upload_download_display_resulst:
+    needs: autocode_bot_code_gen_gpt_interaction
+    runs-on: ubuntu-latest
+    steps:         
       - name: Upload gpt result as artifact
         uses: actions/upload-artifact@v4
         with:
