@@ -45,19 +45,6 @@ jobs:
           echo "GITHUB TOKEN: ${GITHUB_TOKEN}"
           echo "OPENAI API KEY: ${OPENAI_API_KEY}"
 
-      # - name: Label exists env variable    
-      #   if: contains(github.event.issue.labels.*.name, 'autocoder-bot')
-      #   run: |
-      #    echo "Label 'autocoder-bot' exists..."
-      #    echo "LABEL_EXISTS=true" >> $GITHUB_ENV 
-
-      #  # Add else condition to set false
-      # - name: Label doesn't exist env variable
-      #   if: ${{ !contains(github.event.issue.labels.*.name, 'autocoder-bot') }}
-      #   run: |
-      #     echo "Label 'autocoder-bot' does not exist..."
-      #     echo "LABEL_EXISTS=false" >> $GITHUB_ENV   
-
   autocode_bot_code_gen_gpt_interaction:
     needs: code_generation
     if: |
