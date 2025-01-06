@@ -34,8 +34,9 @@ jobs:
 
   code_generation:
     runs-on: ubuntu-latest
+    if: contains(github.event.issue.labels.*.name, 'autocoder-bot')
     outputs:
-      label_status: ${{ env.LABEL_EXISTS }}
+      label_status: ${{ job.status }}
     steps:
       - name: Set env variables
         run: |
@@ -44,38 +45,38 @@ jobs:
           echo "GITHUB TOKEN: ${GITHUB_TOKEN}"
           echo "OPENAI API KEY: ${OPENAI_API_KEY}"
 
-      - name: Label exists env variable    
-        if: contains(github.event.issue.labels.*.name, 'autocoder-bot')
-        run: |
-         echo "Label 'autocoder-bot' exists..."
-         echo "LABEL_EXISTS=true" >> $GITHUB_ENV 
+      # - name: Label exists env variable    
+      #   if: contains(github.event.issue.labels.*.name, 'autocoder-bot')
+      #   run: |
+      #    echo "Label 'autocoder-bot' exists..."
+      #    echo "LABEL_EXISTS=true" >> $GITHUB_ENV 
 
-       # Add else condition to set false
-      - name: Label doesn't exist env variable
-        if: ${{ !contains(github.event.issue.labels.*.name, 'autocoder-bot') }}
-        run: |
-          echo "Label 'autocoder-bot' does not exist..."
-          echo "LABEL_EXISTS=false" >> $GITHUB_ENV   
+      #  # Add else condition to set false
+      # - name: Label doesn't exist env variable
+      #   if: ${{ !contains(github.event.issue.labels.*.name, 'autocoder-bot') }}
+      #   run: |
+      #     echo "Label 'autocoder-bot' does not exist..."
+      #     echo "LABEL_EXISTS=false" >> $GITHUB_ENV   
 
   autocode_bot_code_gen_gpt_interaction:
     needs: code_generation
+    if: |
+      needs.code_generation.outputs.label_status == 'success'
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
-        if: ${{ needs.code_generation.outputs.label_status == 'true' }}
         uses: actions/checkout@v4
 
       - name: Run gpt interaction script
-        if: ${{ needs.code_generation.outputs.label_status == 'true' }}
         run: |
-          echo "LABEL PRESENT STATUS: ${{ needs.code_generation.outputs.label_status }}" 
+           echo "Running GPT interaction script..."
            chmod u+x ./scripts/script.sh
            bash ./scripts/script.sh 
   
   autocode_bot_upload_download_display_results:
     needs: [code_generation, autocode_bot_code_gen_gpt_interaction]
     if: |
-      needs.code_generation.outputs.label_status == 'true' &&
+      needs.code_generation.outputs.label_status == 'success' &&
       needs.autocode_bot_code_gen_gpt_interaction.result == 'success'
     runs-on: ubuntu-latest
     
