@@ -72,8 +72,11 @@ jobs:
            chmod u+x ./scripts/script.sh
            bash ./scripts/script.sh 
   
-  autocode_bot_upload_download_display_resulst:
-    needs: autocode_bot_code_gen_gpt_interaction
+  autocode_bot_upload_download_display_results:
+    needs: [code_generation, autocode_bot_code_gen_gpt_interaction]
+    if: |
+      needs.code_generation.outputs.label_status == 'true' &&
+      needs.autocode_bot_code_gen_gpt_interaction.result == 'success'
     runs-on: ubuntu-latest
     
     steps:         
