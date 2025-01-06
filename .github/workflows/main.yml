@@ -72,10 +72,22 @@ jobs:
            chmod u+x ./scripts/script.sh
            bash ./scripts/script.sh 
   
-  autocode_not_upload_download_display_resulst:
+  autocode_bot_upload_download_display_resulst:
     needs: autocode_bot_code_gen_gpt_interaction
     runs-on: ubuntu-latest
+    
     steps:         
+      - name: Checkout repository
+        uses: actions/checkout@v4
+      
+      - name: Verify file exists
+        run: |
+          pwd
+          ls -la
+          echo "Checking autocoder-bot directory:"
+          ls -la ./autocoder-bot || echo "Directory not found"
+
+        
       - name: Upload gpt result as artifact
         uses: actions/upload-artifact@v4
         with:
