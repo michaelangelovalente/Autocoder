@@ -21,7 +21,7 @@ jobs:
   check_labels_autocoder_bot:
     runs-on: ubuntu-latest
     outputs:
-      should_run: ${{steps.check.outputs.has_label}}
+      should_run: ${{ steps.check.outputs.has_label }}
     steps:
       - id: check
         run: |
