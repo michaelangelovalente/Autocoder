@@ -20,13 +20,13 @@ jobs:
 
   check_labels_autocoder-bot:
     runs-on: ubuntu-latest
-    ouputs:
+    outputs:
       should_run: ${{check}}
     steps:
       - id: check
         run: |
           if [[ "${{ contains(github.event.issue.labels.*.name, 'autocoder-bot') }}" ]]
-            echo "has_label=true" >> $GITHUB_OUPUT
+            echo "has_label=true" >> $GITHUB_OUTPUT
           else
             echo "has_label=false" >> $GITHUB_OUTPUT
           fi
@@ -52,7 +52,7 @@ jobs:
             exit 1
           fi
           # Output issue information for logging
-          echo "issue_number=${ISSUE_NUMBER}" >> $GITHUB_OUPUT
+          echo "issue_number=${ISSUE_NUMBER}" >> $GITHUB_OUTPUT
           echo "has_required_label=${{ contains(env.ISSUE_LABELS, 'autocoder-bot') }}" >> $GITHUB_OUTPUT
 
   generate_code: 
@@ -78,7 +78,7 @@ jobs:
           chmod u+x ./scripts/script.sh
           # Add error handling
           if ! bash ./scripts/script.sh; then
-            echo "status=failed" >> $GITHUB_OUPUT
+            echo "status=failed" >> $GITHUB_OUTPUT
             exit 1
           fi
           echo "status=success" >> $GITHUB_OUTPUT
