@@ -1,0 +1,112 @@
+# name: Access Issue Information
+# on:
+#   issues:
+#     types: [opened, reopened, labeled]
+# env:
+#     ISSUE_TITLE: ${{ github.event.issue.title }}
+#     ISSUE_NUMBER: ${{ github.event.issue.number }}
+#     ISSUE_BODY: ${{ github.event.issue.body }}
+#     ISSUE_ASSIGNEES: ${{ join(github.event.issue.assignees.*.login, ', ') }}
+#     ISSUE_LABELS: ${{ join(github.event.issue.labels.*.name, ', ') }}
+
+#     REPO_NAME: ${{github.repository}}
+#     # ISSUE_NUM: ${{github.event.issue.number}}
+#     OPENAI_API_KEY: ${{secrets.OPENAI_KEY}}
+#     GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
+
+# jobs:
+#   access_issue_info:
+#     runs-on: ubuntu-latest
+
+#     steps:
+#       - name: Checkout actions 
+#         uses: actions/checkout@v4
+
+#       - name: Print Issue Information  
+#         run: |
+#           echo "Issue Title: ${ISSUE_TITLE}"
+#           echo "Issue Number: ${ISSUE_NUMBER}"     
+#           echo "Issue Body: ${ISSUE_BODY}"     
+#           echo "Issue Assignees: ${ISSUE_ASSIGNEES}"     
+#           echo "Issue Labels: ${ISSUE_LABELS}"
+#           echo "Issue repo name: ${REPO_NAME}"
+
+
+#   code_generation:
+#     runs-on: ubuntu-latest
+#     if: contains(github.event.issue.labels.*.name, 'autocoder-bot')
+#     outputs:
+#       label_status: ${{ job.status }}
+#     steps:
+#       - name: Set env variables
+#         run: |
+#           echo "REPO NAME: ${REPO_NAME}"
+#           echo "ISSUE NUM: ${ISSUE_NUMBER}"
+#           echo "GITHUB TOKEN: ${GITHUB_TOKEN}"
+#           echo "OPENAI API KEY: ${OPENAI_API_KEY}"
+
+#   autocode_bot_code_gen_gpt_interaction:
+#     needs: code_generation
+#     if: |
+#       needs.code_generation.outputs.label_status == 'success'
+#     runs-on: ubuntu-latest
+#     steps:
+#       - name: Checkout repository
+#         uses: actions/checkout@v4
+
+#       - name: Run gpt interaction script
+#         run: |
+#            echo "Running GPT interaction script..."
+#            chmod u+x ./scripts/script.sh
+#            bash ./scripts/script.sh 
+  
+#   autocode_bot_upload_download_display_results:
+#     needs: [code_generation, autocode_bot_code_gen_gpt_interaction]
+#     if: |
+#       needs.code_generation.outputs.label_status == 'success' &&
+#       needs.autocode_bot_code_gen_gpt_interaction.result == 'success'
+#     runs-on: ubuntu-latest
+    
+#     steps:         
+#       - name: Checkout repository
+#         uses: actions/checkout@v4
+      
+#       - name: Verify file exists
+#         run: |
+#           pwd
+#           ls -la
+#           echo "Checking autocoder-bot directory:"
+#           ls -la ./autocoder-bot || echo "Directory not found"
+
+        
+#       - name: Upload gpt result as artifact
+#         uses: actions/upload-artifact@v4
+#         with:
+#           name: autocoder-artifact
+#           path: ./autocoder-bot/docker-compose.yml
+#           if-no-files-found: error
+#           retention-days: 1
+      
+#       - name: Download autocoder-artifact
+#         uses: actions/download-artifact@v4
+#         id: autocoder-result-id
+#         with:
+#           name: autocoder-artifact
+#           path: ~/autocoder-artifact
+      
+#       - name: Display generated code using ls
+#         run: |
+#           ls -aR ~/autocoder-artifact
+#          echo "Current working Directory:"
+#          pwd
+#          echo -e "\nDownload PATH:"
+#          echo ~/download-artifact-result
+#          echo -e "\nFull Directory Structure:"
+#          ls -aR ~/download-artifact-result 
+          
+
+          
+
+        
+
+

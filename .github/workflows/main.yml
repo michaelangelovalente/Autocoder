@@ -1,5 +1,6 @@
-name: Access Issue Information
-on:
+name: Autocoder Bot Workflow
+
+on: 
   issues:
     types: [opened, reopened, labeled]
 env:
@@ -14,99 +15,118 @@ env:
     OPENAI_API_KEY: ${{secrets.OPENAI_KEY}}
     GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
 
+
 jobs:
-  access_issue_info:
+
+  check_labels_autocoder-bot:
     runs-on: ubuntu-latest
-
+    ouputs:
+      should_run: ${{check}}
     steps:
-      - name: Checkout actions 
-        uses: actions/checkout@v4
-
-      - name: Print Issue Information  
+      - id: check
         run: |
-          echo "Issue Title: ${ISSUE_TITLE}"
-          echo "Issue Number: ${ISSUE_NUMBER}"     
-          echo "Issue Body: ${ISSUE_BODY}"     
-          echo "Issue Assignees: ${ISSUE_ASSIGNEES}"     
-          echo "Issue Labels: ${ISSUE_LABELS}"
-          echo "Issue repo name: ${REPO_NAME}"
-
-
-  code_generation:
+          if [[ "${{ contains(github.event.issue.labels.*.name, 'autocoder-bot') }}" ]]
+            echo "has_label=true" >> $GITHUB_OUPUT
+          else
+            echo "has_label=false" >> $GITHUB_OUTPUT
+          fi
+ 
+  process_issue:
+    needs: check_labels_autocoder-bot
+    if: needs.check_labels_autocoder-bot.should_run == 'true'
     runs-on: ubuntu-latest
-    if: contains(github.event.issue.labels.*.name, 'autocoder-bot')
-    outputs:
-      label_status: ${{ job.status }}
-    steps:
-      - name: Set env variables
-        run: |
-          echo "REPO NAME: ${REPO_NAME}"
-          echo "ISSUE NUM: ${ISSUE_NUMBER}"
-          echo "GITHUB TOKEN: ${GITHUB_TOKEN}"
-          echo "OPENAI API KEY: ${OPENAI_API_KEY}"
-
-  autocode_bot_code_gen_gpt_interaction:
-    needs: code_generation
-    if: |
-      needs.code_generation.outputs.label_status == 'success'
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
-
-      - name: Run gpt interaction script
-        run: |
-           echo "Running GPT interaction script..."
-           chmod u+x ./scripts/script.sh
-           bash ./scripts/script.sh 
+    timeout-minutes: 5
   
-  autocode_bot_upload_download_display_results:
-    needs: [code_generation, autocode_bot_code_gen_gpt_interaction]
-    if: |
-      needs.code_generation.outputs.label_status == 'success' &&
-      needs.autocode_bot_code_gen_gpt_interaction.result == 'success'
-    runs-on: ubuntu-latest
-    
-    steps:         
-      - name: Checkout repository
+    steps:
+      - name: Checkout repository for Process Issue
         uses: actions/checkout@v4
-      
-      - name: Verify file exists
-        run: |
-          pwd
-          ls -la
-          echo "Checking autocoder-bot directory:"
-          ls -la ./autocoder-bot || echo "Directory not found"
+        # with:
+        #   fetch-depth: 1 # Shallow clone for faster checkout
 
-        
-      - name: Upload gpt result as artifact
+      - name: Validate issue information
+        id: validate
+        run: |
+          # Fail if required information is missing
+          if [ -z "$ISSUE_BODY" ]; then
+            echo "Error: Issue body is empty"
+            exit 1
+          fi
+          # Output issue information for logging
+          echo "issue_number=${ISSUE_NUMBER}" >> $GITHUB_OUPUT
+          echo "has_required_label=${{ contains(env.ISSUE_LABELS, 'autocoder-bot') }}" >> $GITHUB_OUTPUT
+
+  generate_code: 
+    needs: process_issue
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    if: needs.process_issue.result == 'success'
+    
+    outputs:
+      generation_status: ${{ steps.generation.outputs.status }}
+    
+    steps:
+      - name: Set up environment
+        id: setup
+        run: |
+          echo "Setting up environment..."
+          echo "REPO_NAME: ${{ env.REPO_NAME }}"
+          echo "ISSUE_NUMBER: ${{ env.issue_number }}"
+
+      - name: Run GPT interaction script
+        id: generation
+        run: |
+          chmod u+x ./scripts/script.sh
+          # Add error handling
+          if ! bash ./scripts/script.sh; then
+            echo "status=failed" >> $GITHUB_OUPUT
+            exit 1
+          fi
+          echo "status=success" >> $GITHUB_OUTPUT
+  
+  handle_artifacts:
+    needs: [process_issue, generate_code]
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    if: |
+      needs.generate_code.outputs.generations_status == 'success' &&
+      needs.process_issue.result == 'success'
+    
+    steps: 
+      - name: Checkout repository for handle artifacts
+        uses: actions/checkout@v4
+    
+      - name: Prepare artifact directory
+        id: prepare
+        run: |
+          mkdir -p ./autocoder-bot
+          # Verify directory exists
+          if [ ! -d "./autocoder-bot" ]; then
+            echo "Failed to create artifact directory"
+            exit 1
+          fi
+      
+      - name: Upload generated code
         uses: actions/upload-artifact@v4
         with:
-          name: autocoder-artifact
-          path: ./autocoder-bot/docker-compose.yml
-          if-no-files-found: error
-          retention-days: 1
+          name: autocoder-artifact-${{ github.event.issue.number }}
+          path: |
+            ./autocoder-bot/         # Include everything in the directory
+            !./autocoder-bot/*.tmp   # Exclude temporary files
+            !./autocoder-bot/*.log   # Exclude log files
+          if-no-files-found: warn
+          retention-days: 2
       
-      - name: Download autocoder-artifact
+      - name: Download and verify artifacts
+        id: verify
         uses: actions/download-artifact@v4
-        id: autocoder-result-id
         with:
-          name: autocoder-artifact
+          name: autocoder-artifact-${{ github.event.issue.number }}
           path: ~/autocoder-artifact
       
-      - name: Display generated code using ls
+      - name: Display results
         run: |
+          echo "Generated files:"
           ls -aR ~/autocoder-artifact
-#          echo "Current working Directory:"
-#          pwd
-#          echo -e "\nDownload PATH:"
-#          echo ~/download-artifact-result
-#          echo -e "\nFull Directory Structure:"
-#          ls -aR ~/download-artifact-result 
-          
-
-          
-
-        
 
 
+  
