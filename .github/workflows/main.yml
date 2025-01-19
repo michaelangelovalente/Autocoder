@@ -119,7 +119,7 @@ jobs:
         id: prepare
         run: |
           # directory for code generation
-          mkdir -p ./autocoder-bot
+          # mkdir -p ./autocoder-bot
           # directory for artifacts
           mkdir -p ./autocoder-artifact
 
