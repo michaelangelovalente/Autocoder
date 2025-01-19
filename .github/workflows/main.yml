@@ -134,16 +134,16 @@ jobs:
         with:
           name: autocoder-artifact-test-upload
           path: |
-            ./autocoder-bot/         # Include everything in the directory
+            ./autocoder-bot/*         # Include everything in the directory
             !./autocoder-bot/*.tmp   # Exclude temporary files
             !./autocoder-bot/*.log   # Exclude log files
           if-no-files-found: warn
           retention-days: 2
 
-      - name: Display results 
+      - name: Pre Display results 
         run: |
           echo "List data:"
-          ls -laR ./autocoder-bot
+          ls -aR ./autocoder-bot
 
       - name: Download artifacts
         uses: actions/download-artifact@v4
