@@ -108,7 +108,7 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 5
     if: |
-      needs.generate_code.outputs.generations_status == 'success' &&
+      needs.generate_code.outputs.generation_status == 'success' &&
       needs.process_issue.result == 'success'
     
     steps: 
