@@ -118,9 +118,13 @@ jobs:
       - name: Prepare artifact directory
         id: prepare
         run: |
+          # directory for code generation
           mkdir -p ./autocoder-bot
-          # Verify directory exists
-          if [ ! -d "./autocoder-bot" ]; then
+          # directory for artifacts
+          mkdir -p ./autocoder-artifact
+
+          # Verify directories exists
+          if [ ! -d "./autocoder-bot" ] || [ ! -d "./autocoder-artifact" ]; then
             echo "Failed to create artifact directory"
             exit 1
           fi
@@ -136,17 +140,16 @@ jobs:
           if-no-files-found: warn
           retention-days: 2
       
-      - name: Download and verify artifacts
-        id: verify
+      - name: Download artifacts
         uses: actions/download-artifact@v4
         with:
           name: autocoder-artifact-${{ github.event.issue.number }}
-          path: ~/autocoder-artifact
+          path: ./autocoder-artifact
       
       - name: Display results
         run: |
           echo "Generated files:"
-          ls -aR ~/autocoder-artifact
+          ls -laR ~/autocoder-artifact
 
 
   
