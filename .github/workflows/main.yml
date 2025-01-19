@@ -82,6 +82,9 @@ jobs:
       generation_status: ${{ steps.generation.outputs.status }}
     
     steps:
+      - name: Checkout repository generate code
+        uses: actions/checkout@v4
+      
       - name: Set up environment
         id: setup
         run: |
