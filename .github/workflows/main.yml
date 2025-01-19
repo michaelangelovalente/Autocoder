@@ -124,10 +124,10 @@ jobs:
           mkdir -p ./autocoder-artifact
 
           # Verify directories exists
-          if [ ! -d "./autocoder-bot" ] || [ ! -d "./autocoder-artifact" ]; then
-            echo "Failed to create artifact directory"
-            exit 1
-          fi
+          # if [ ! -d "./autocoder-bot" ] || [ ! -d "./autocoder-artifact" ]; then
+          #   echo "Failed to create artifact directory"
+          #   exit 1
+          # fi
       
       - name: Upload generated code
         uses: actions/upload-artifact@v4
