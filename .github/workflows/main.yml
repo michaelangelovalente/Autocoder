@@ -28,15 +28,29 @@ jobs:
           if [[ "${{ contains(github.event.issue.labels.*.name, 'autocoder-bot') }}" == "true" ]]; then
             echo "Issue does not contain autocoder-bot label"
             echo "${{env.ISSUE_LABELS}}"
-            echo "check labels: ${{steps.check.outputs.has_label}}"
             echo "has_label=true" >> $GITHUB_OUTPUT
           else
             echo "has_label=false" >> $GITHUB_OUTPUT
           fi   
+  
+  # check_labels_output_test:
+  #   runs-on: ubuntu-latest
+  #   # timeout-minutes: 5
+  
+  #   steps:
+  #     - name: Checkout repository for Process Issue
+  #       uses: actions/checkout@v4
+  #       # with:
+  #       #   fetch-depth: 1 # Shallow clone for faster checkout
 
+  #     - name: Check output
+  #       id: output_check
+  #       run: |
+  #         echo "Has label result: ${{ check_labels_autocoder_bot.should_run }}"
+      
   process_issue:
     needs: check_labels_autocoder_bot
-    if: needs.check_labels_autocoder_bot.should_run == 'true'
+    if: needs.check_labels_autocoder_bot.outputs.should_run == 'true'
     runs-on: ubuntu-latest
     # timeout-minutes: 5
   
