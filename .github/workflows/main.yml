@@ -75,7 +75,7 @@ jobs:
   generate_code: 
     needs: process_issue
     runs-on: ubuntu-latest
-    timeout-minutes: 10
+    # timeout-minutes: 10
     if: needs.process_issue.result == 'success'
     
     outputs:
@@ -96,6 +96,7 @@ jobs:
         id: generation
         run: |
           chmod u+x ./scripts/script.sh
+          bash ./scripts/script.sh 
           # Add error handling
           if ! bash ./scripts/script.sh; then
             echo "status=failed" >> $GITHUB_OUTPUT
