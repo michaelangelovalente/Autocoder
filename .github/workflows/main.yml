@@ -96,7 +96,7 @@ jobs:
         id: generation
         run: |
           chmod u+x ./scripts/script.sh
-          bash ./scripts/script.sh 
+          # bash ./scripts/script.sh 
           # Add error handling
           if ! bash ./scripts/script.sh; then
             echo "status=failed" >> $GITHUB_OUTPUT

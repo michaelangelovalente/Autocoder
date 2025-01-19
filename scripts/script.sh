@@ -119,3 +119,6 @@ for key in $(echo "$FILES_JSON" | jq -r 'keys[]'); do
 done
 
 echo "All files have been processed successfully."
+
+# Display final results
+display_generation_dir_and_files_results
