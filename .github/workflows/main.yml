@@ -139,7 +139,12 @@ jobs:
             !./autocoder-bot/*.log   # Exclude log files
           if-no-files-found: warn
           retention-days: 2
-      
+
+      - name: Display results 
+        run: |
+          echo "List data:"
+          ls -laR ~/autocoder-bot
+
       - name: Download artifacts
         uses: actions/download-artifact@v4
         with:
