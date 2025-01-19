@@ -134,7 +134,7 @@ jobs:
         with:
           name: autocoder-artifact-test-upload
           path: |
-            ./autocoder-bot/*         # Include everything in the directory
+            ./autocoder-bot/docker-compose.yml         # Include everything in the directory
             !./autocoder-bot/*.tmp   # Exclude temporary files
             !./autocoder-bot/*.log   # Exclude log files
           if-no-files-found: warn
