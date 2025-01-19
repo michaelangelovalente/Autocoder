@@ -12,6 +12,11 @@ REPOSITORY=${REPO_NAME}
 # ISSUE_NUMBER="$3"
 # OPENAI_API_KEY="$4"
 
+# Initialize arrays to store filenames and directories
+declare -a GENERATED_FILES
+declare -a GENERATED_DIRS
+
+
 # Function to fetch issue details from GitHub API
 fetch_issue_details() {
     curl -s -H "Authorization: token $GITHUB_TOKEN" \
@@ -41,10 +46,33 @@ save_to_file() {
     #  Save the code snippets to files in a directory named "autocoder-bot" with the filename specified in the JSON object.
     local filename="./autocoder-bot/$1"
     local code_snippet="$2"
+    local dir=$(dirname "$filename")
 
-    mkdir -p "$(dirname "$filename")"
+    # mkdir -p "$(dirname "$filename")"
+    mkdir -p "$dir"
+
+    # Save the code
     echo -e "$code_snippet" > "$filename"
     echo "The code has been written to $filename"
+
+    # Store filename and directory for logging
+    GENERATED_FILES+=("$filename")
+    if [[ ! " ${GENERATED_DIRS[@]} " =~ " ${dir} " ]]; then
+        GENERATED_DIRS+=("$dir")
+    fi
+}
+
+# Function to display generated files and directories
+display_generation_dir_and_files_results(){
+    echo "=== Generation Summary ==="
+    echo "Generated Directories:"
+    printf '%s\n' "${GENERATED_DIRS[@]}" | sort -u
+
+    echo -e "\nGenerated Files:"
+    printf '%s\n' "${GENERATED_FILES[@]}" | sort
+
+    echo -e "\nDetailed File Structure:"
+    tree ./autocoder-bot
 }
 
 # Fetch and process issue details
