@@ -25,7 +25,8 @@ jobs:
     steps:
       - id: check
         run: |
-          if [[ "${{ contains(github.event.issue.labels.*.name, 'autocoder-bot') }}" == "true"]]; then
+          if [[ "${{ contains(github.event.issue.labels.*.name, 'autocoder-bot') }}" == "true" ]]; then
+            echo "Issue does not contain autocoder-bot label"
             echo "has_label=true" >> $GITHUB_OUTPUT
           else
             echo "has_label=false" >> $GITHUB_OUTPUT
