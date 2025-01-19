@@ -32,35 +32,11 @@ jobs:
             echo "has_label=true" >> $GITHUB_OUTPUT
           else
             echo "has_label=false" >> $GITHUB_OUTPUT
-          fi
-  
-  process_issue_test:
-    needs: check_labels_autocoder_bot
-    # if: needs.check_labels_autocoder-bot.should_run == 'true'
-    runs-on: ubuntu-latest
-    
-  
-    steps:
-      - name: Checkout repository for Process Issue
-        uses: actions/checkout@v4
-        # with:
-        #   fetch-depth: 1 # Shallow clone for faster checkout
-
-      - name: Validate issue information
-        id: validate
-        run: |
-          # Fail if required information is missing
-          if [ -z "$ISSUE_BODY" ]; then
-            echo "Error: Issue body is empty"
-            exit 1
-          fi
-          # Output issue information for logging
-          echo "issue_number=${ISSUE_NUMBER}" >> $GITHUB_OUTPUT
-          echo "has_required_label=${{ contains(env.ISSUE_LABELS, 'autocoder-bot') }}" >> $GITHUB_OUTPUT          
+          fi   
 
   process_issue:
     needs: check_labels_autocoder_bot
-    if: needs.check_labels_autocoder-bot.should_run == 'true'
+    if: needs.check_labels_autocoder_bot.should_run == 'true'
     runs-on: ubuntu-latest
     # timeout-minutes: 5
   
