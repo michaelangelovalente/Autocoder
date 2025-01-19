@@ -18,7 +18,7 @@ env:
 
 jobs:
 
-  check_labels_autocoder-bot:
+  check_labels_autocoder_bot:
     runs-on: ubuntu-latest
     outputs:
       should_run: ${{steps.check.outputs.has_label}}
@@ -28,13 +28,14 @@ jobs:
           if [[ "${{ contains(github.event.issue.labels.*.name, 'autocoder-bot') }}" == "true" ]]; then
             echo "Issue does not contain autocoder-bot label"
             echo "${{env.ISSUE_LABELS}}"
+            echo "check labels: ${{steps.check.outputs.has_label}}"
             echo "has_label=true" >> $GITHUB_OUTPUT
           else
             echo "has_label=false" >> $GITHUB_OUTPUT
           fi
  
   process_issue:
-    needs: check_labels_autocoder-bot
+    needs: check_labels_autocoder_bot
     if: needs.check_labels_autocoder-bot.should_run == 'true'
     runs-on: ubuntu-latest
     timeout-minutes: 5
