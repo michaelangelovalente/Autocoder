@@ -112,7 +112,7 @@ jobs:
           mkdir -p ./autocoder-artifact
           
       - name: Upload artifact
-        if: steps.generation.status == 'success'
+#        # if: steps.generation.status == 'success'
         uses: actions/upload-artifact@v3
         with:
           name: autocoder-artifact-test-upload
