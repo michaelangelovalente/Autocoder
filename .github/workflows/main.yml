@@ -103,7 +103,27 @@ jobs:
             exit 1
           fi
           echo "status=success" >> $GITHUB_OUTPUT
-  
+      - name: Prepare artifact directory
+        id: prepare-directory
+        run: |
+          # directory for generated code from autobot
+          mkdir -p ./autocoder-bot
+          # directory for artifacts
+          mkdir -p ./autocoder-artifact
+          
+      - name: Upload artifact
+        if: steps.generation.status == 'success'
+        uses: actions/upload-artifact@v3
+        with:
+          name: autocoder-artifact-test-upload
+          path: |
+            ./autcoder-bot/
+          if-no-files-found: error
+          retention-days: 1
+        
+
+
+  # //TODO --> UPLOAD generate code jobs
   handle_artifacts:
     needs: [process_issue, generate_code]
     runs-on: ubuntu-latest
@@ -113,33 +133,33 @@ jobs:
       needs.process_issue.result == 'success'
     
     steps: 
-      - name: Checkout repository for handle artifacts
-        uses: actions/checkout@v4
+      # - name: checkout repository for handle artifacts
+      #   uses: actions/checkout@v4
     
-      - name: Prepare artifact directory
-        id: prepare
-        run: |
-          # directory for code generation
-          mkdir -p ./autocoder-bot
-          # directory for artifacts
-          mkdir -p ./autocoder-artifact
+      # - name: prepare artifact directory
+      #   id: prepare
+      #   run: |
+      #     # directory for code generation
+      #     mkdir -p ./autocoder-bot
+      #     # directory for artifacts
+      #     mkdir -p ./autocoder-artifact
 
-          # Verify directories exists
-          # if [ ! -d "./autocoder-bot" ] || [ ! -d "./autocoder-artifact" ]; then
-          #   echo "Failed to create artifact directory"
-          #   exit 1
-          # fi
+      #     # verify directories exists
+      #     # if [ ! -d "./autocoder-bot" ] || [ ! -d "./autocoder-artifact" ]; then
+      #     #   echo "failed to create artifact directory"
+      #     #   exit 1
+      #     # fi
       
-      - name: Upload generated code
-        uses: actions/upload-artifact@v4
-        with:
-          name: autocoder-artifact-test-upload
-          path: |
-            ./autocoder-bot/docker-compose.yml         # Include everything in the directory
-            !./autocoder-bot/*.tmp   # Exclude temporary files
-            !./autocoder-bot/*.log   # Exclude log files
-          if-no-files-found: warn
-          retention-days: 2
+      # - name: upload generated code
+      #   uses: actions/upload-artifact@v4
+      #   with:
+      #     name: autocoder-artifact-test-upload
+      #     path: |
+      #       ./autocoder-bot/docker-compose.yml         # include everything in the directory
+      #       # !./autocoder-bot/*.tmp   # exclude temporary files
+      #       # !./autocoder-bot/*.log   # exclude log files
+      #     if-no-files-found: warn
+      #     retention-days: 2
 
       - name: Pre Display results 
         run: |
