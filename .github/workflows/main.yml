@@ -116,7 +116,7 @@ jobs:
         with:
           name: autocoder-artifact-test-upload
           path: |
-            ./autcoder-bot/
+            ./autocoder-bot/
           if-no-files-found: error
           retention-days: 1
         
