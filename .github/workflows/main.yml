@@ -90,7 +90,7 @@ jobs:
         run: |
           echo "Setting up environment..."
           echo "REPO_NAME: ${{ env.REPO_NAME }}"
-          echo "ISSUE_NUMBER: ${{ env.issue_number }}"
+          echo "ISSUE_NUMBER: ${{ env.ISSUE_NUMBER }}"
 
       - name: Run GPT interaction script
         id: generation
