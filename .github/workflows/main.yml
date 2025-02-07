@@ -92,6 +92,14 @@ jobs:
           echo "REPO_NAME: ${{ env.REPO_NAME }}"
           echo "ISSUE_NUMBER: ${{ env.ISSUE_NUMBER }}"
 
+      - name: Prepare artifact directory
+        id: prepare-directory
+        run: |
+          # directory for generated code from autobot
+          mkdir -p ./autocoder-bot
+          # directory for artifacts
+          mkdir -p ./autocoder-artifact
+
       - name: Run GPT interaction script
         id: generation
         run: |
@@ -103,13 +111,7 @@ jobs:
             exit 1
           fi
           echo "status=success" >> $GITHUB_OUTPUT
-      - name: Prepare artifact directory
-        id: prepare-directory
-        run: |
-          # directory for generated code from autobot
-          mkdir -p ./autocoder-bot
-          # directory for artifacts
-          mkdir -p ./autocoder-artifact
+
           
       - name: Upload artifact
         uses: actions/upload-artifact@v4
