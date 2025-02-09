@@ -60,28 +60,4 @@ jobs:
       - name: List files recursively
         run: ls -R ./autocoder-artifact/
 
-  handle_artifacts:
-    needs: [process_issue]
-    runs-on: ubuntu-latest
-    timeout-minutes: 5
-    if: contains(github.event.issue.labels.*.name, 'autocoder-bot') 
-    steps: 
-      # Step 0 Download the artifacts
-      - name: Download artificats
-        uses: actions/download-artifact@v4
-        with: 
-          name: autocoder-artifact
-          path: ./autocoder-bot/
-      - name: Verify Download 
-        run: |
-         if [ ! -d "./autocoder-bot" ]; then
-          echo "Error: Artifact directory called autocoder-bot not found"
-          exit 1
-         fi
-
-      - name: Display results
-        run: |
-          echo "Generated files in artifact autocoder-bot directory:"
-          ls -laR ./autocoder-bot || echo "Failed to list autocoder artifact"
-
   
