@@ -134,37 +134,36 @@ jobs:
         
 
 
-  # handle_artifacts:
-  #   needs: [process_issue, generate_code]
-  #   runs-on: ubuntu-latest
-  #   timeout-minutes: 5
-  #   if: |
-  #     needs.generate_code.outputs.generation_status == 'success' &&
-  #     needs.process_issue.result == 'success'
+  handle_artifacts:
+    needs: [process_issue, generate_code]
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    if: |
+      needs.generate_code.outputs.generation_status == 'success' &&
+      needs.process_issue.result == 'success'
     
-  #   steps: 
-  #     # Step 0 Download the artifacts
-  #     - name: Download artificats
-  #       uses: actions/download-artifact@v4
-  #       with: 
-  #         name: autocoder-artifact-test-upload
-  #         path: ./autcoder-artifact
+    steps: 
+      # Step 0 Download the artifacts
+      - name: Download artificats
+        uses: actions/download-artifact@v4
+        with: 
+          name: autocoder-artifact-test-upload
+          path: ./autcoder-artifact
 
-  #     - name: Pre Display results - downloaded artifacts
-  #       run: |
-  #         echo "List data:"
-  #         ls -alR ./autocoder-bot
+      - name: Pre Display results - downloaded artifacts
+        run: |
+          echo "List data autocoder bot:"
+          ls -alR ./autocoder-bot
+          echo "list downloaded artifacts:"
+          ls -la ./autocoder-artifact || echo "autocoder-artifact directory not found"
+          echo "Current directory:"
+          pwd 
+          ls -la
 
-  #     - name: Download artifacts
-  #       uses: actions/download-artifact@v4
-  #       with:
-  #         name: autocoder-artifact-test-upload
-  #         path: ./autocoder-artifact
-      
-  #     - name: Display results
-  #       run: |
-  #         echo "Generated files:"
-  #         ls -laR ~/autocoder-artifact
+      - name: Display results
+        run: |
+          echo "Generated files in artifact directory:"
+          ls -laR ./autocoder-artifact || echo "Failed to list autocoder artifact"
 
 
   
