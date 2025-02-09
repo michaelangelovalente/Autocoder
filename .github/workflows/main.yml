@@ -26,11 +26,10 @@ jobs:
       - name: Checkout repository for Process Issue
         uses: actions/checkout@v4
 
-      - name: Make script executable
-        run: chmod +x ./scripts/script.sh
-      
-      - name: Run the script
-        run: ./scripts/script.sh  
+      - name: Make script executable and Run the script
+        run: |
+         chmod +x ./scripts/script.sh
+         ./scripts.script.sh
 
       - name: Validate issue information
         id: validate
