@@ -96,8 +96,6 @@ jobs:
         id: prepare-directory
         run: |
           # directory for generated code from autobot
-          mkdir -p ./autocoder-bot
-          # directory for artifacts
           mkdir -p ./autocoder-artifact
 
       - name: Run GPT interaction script
@@ -112,8 +110,8 @@ jobs:
           fi
 
           # Verify files were generated
-          if [ ! "$(ls -A ./autocoder-bot/)" ]; then
-            echo "No files were generated in ./autocoder-bot/"
+          if [ ! "$(ls -A ./autocoder-artifact/)" ]; then
+            echo "No files were generated in ./autocoder-artifact/"
             exit 1
           fi
           echo "status=success" >> $GITHUB_OUTPUT
@@ -121,14 +119,14 @@ jobs:
       - name: List generated files
         run: |
           echo "Generated files in autocder-bot"
-          ls -la ./autocoder-bot/    
+          ls -la ./autocoder-artifact/    
           
       - name: Upload artifact
         uses: actions/upload-artifact@v4
         with:
-          name: autocoder-artifact-test-upload
+          name: autocoder-artifact
           path: |
-            ./autocoder-bot/
+            ./autocoder-artifact/
           if-no-files-found: error
           retention-days: 1
         
@@ -147,24 +145,18 @@ jobs:
       - name: Download artificats
         uses: actions/download-artifact@v4
         with: 
-          name: autocoder-artifact-test-upload
-          path: ./autocoder-bot/
+          name: autocoder-artifact
+          path: ./autocoder-artifact/
       - name: Verify Download 
         run: |
-         if [ ! -d "./autocoder-bot" ]; then
+         if [ ! -d "./autocoder-artifact" ]; then
           echo "Error: Artifact directory not found"
           exit 1
          fi
 
-      - name: Pre Display results - downloaded artifacts
-        run: |
-          echo "List data autocoder bot:"
-          ls -alR ./autocoder-bot/
-          echo "list downloaded artifacts:"
-
       - name: Display results
         run: |
-          echo "Generated files in artifact autcoder bot directory:"
-          ls -laR ./autocoder-bot || echo "Failed to list autocoder artifact"
+          echo "Generated files in artifact autocoder artifact directory:"
+          ls -laR ./autocoder-artifact || echo "Failed to list autocoder artifact"
 
   
