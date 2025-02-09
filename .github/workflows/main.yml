@@ -110,8 +110,18 @@ jobs:
             echo "status=failed" >> $GITHUB_OUTPUT
             exit 1
           fi
+
+          # Verify files were generated
+          if [ !"$(ls -A ./autocoder-bot)" ]; then
+            echo "No files were generated in ./autocoder-bot/"
+            exit 1
+          fi
           echo "status=success" >> $GITHUB_OUTPUT
 
+      - name: List generated files
+        run: |
+          echo "Generated files in autocder-bot"
+          ls -la ./autocoder-bot/    
           
       - name: Upload artifact
         uses: actions/upload-artifact@v4
@@ -124,59 +134,37 @@ jobs:
         
 
 
-  # //TODO --> UPLOAD generate code jobs
-  handle_artifacts:
-    needs: [process_issue, generate_code]
-    runs-on: ubuntu-latest
-    timeout-minutes: 5
-    if: |
-      needs.generate_code.outputs.generation_status == 'success' &&
-      needs.process_issue.result == 'success'
+  # handle_artifacts:
+  #   needs: [process_issue, generate_code]
+  #   runs-on: ubuntu-latest
+  #   timeout-minutes: 5
+  #   if: |
+  #     needs.generate_code.outputs.generation_status == 'success' &&
+  #     needs.process_issue.result == 'success'
     
-    steps: 
-      # - name: checkout repository for handle artifacts
-      #   uses: actions/checkout@v4
-    
-      # - name: prepare artifact directory
-      #   id: prepare
-      #   run: |
-      #     # directory for code generation
-      #     mkdir -p ./autocoder-bot
-      #     # directory for artifacts
-      #     mkdir -p ./autocoder-artifact
+  #   steps: 
+  #     # Step 0 Download the artifacts
+  #     - name: Download artificats
+  #       uses: actions/download-artifact@v4
+  #       with: 
+  #         name: autocoder-artifact-test-upload
+  #         path: ./autcoder-artifact
 
-      #     # verify directories exists
-      #     # if [ ! -d "./autocoder-bot" ] || [ ! -d "./autocoder-artifact" ]; then
-      #     #   echo "failed to create artifact directory"
-      #     #   exit 1
-      #     # fi
+  #     - name: Pre Display results - downloaded artifacts
+  #       run: |
+  #         echo "List data:"
+  #         ls -alR ./autocoder-bot
+
+  #     - name: Download artifacts
+  #       uses: actions/download-artifact@v4
+  #       with:
+  #         name: autocoder-artifact-test-upload
+  #         path: ./autocoder-artifact
       
-      # - name: upload generated code
-      #   uses: actions/upload-artifact@v4
-      #   with:
-      #     name: autocoder-artifact-test-upload
-      #     path: |
-      #       ./autocoder-bot/docker-compose.yml         # include everything in the directory
-      #       # !./autocoder-bot/*.tmp   # exclude temporary files
-      #       # !./autocoder-bot/*.log   # exclude log files
-      #     if-no-files-found: warn
-      #     retention-days: 2
-
-      - name: Pre Display results 
-        run: |
-          echo "List data:"
-          ls -aR ./autocoder-bot
-
-      - name: Download artifacts
-        uses: actions/download-artifact@v4
-        with:
-          name: autocoder-artifact-test-upload
-          path: ./autocoder-artifact
-      
-      - name: Display results
-        run: |
-          echo "Generated files:"
-          ls -laR ~/autocoder-artifact
+  #     - name: Display results
+  #       run: |
+  #         echo "Generated files:"
+  #         ls -laR ~/autocoder-artifact
 
 
   
