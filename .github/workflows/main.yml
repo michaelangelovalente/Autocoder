@@ -55,66 +55,66 @@ jobs:
         run: ls -R ./autocoder-bot/
 
 
-  generate_code: 
-    needs: process_issue
-    runs-on: ubuntu-latest
-    if: contains(github.event.issue.labels.*.name, 'autocoder-bot') 
-    outputs:
-      generation_status: ${{ steps.generation.outputs.status }}
+  # generate_code: 
+  #   needs: process_issue
+  #   runs-on: ubuntu-latest
+  #   if: contains(github.event.issue.labels.*.name, 'autocoder-bot') 
+  #   outputs:
+  #     generation_status: ${{ steps.generation.outputs.status }}
     
-    steps:
-      - name: Checkout repository generate code
-        uses: actions/checkout@v4
+  #   steps:
+  #     - name: Checkout repository generate code
+  #       uses: actions/checkout@v4
       
-      - name: Set up environment
-        id: setup
-        run: |
-          echo "Setting up environment..."
-          echo "REPO_NAME: ${{ env.REPO_NAME }}"
-          echo "ISSUE_NUMBER: ${{ env.ISSUE_NUMBER }}"
+  #     - name: Set up environment
+  #       id: setup
+  #       run: |
+  #         echo "Setting up environment..."
+  #         echo "REPO_NAME: ${{ env.REPO_NAME }}"
+  #         echo "ISSUE_NUMBER: ${{ env.ISSUE_NUMBER }}"
 
-      - name: Prepare artifact directory
-        id: prepare-directory
-        run: |
-          # directory for generated code from autobot
-          mkdir -p ./autocoder-bot
+  #     - name: Prepare artifact directory
+  #       id: prepare-directory
+  #       run: |
+  #         # directory for generated code from autobot
+  #         mkdir -p ./autocoder-bot
 
-      - name: Run GPT interaction script
-        id: generation
-        run: |
-          chmod u+x ./scripts/script.sh
-          # bash ./scripts/script.sh 
-          # Add error handling
-          if ! bash ./scripts/script.sh; then
-            echo "status=failed" >> $GITHUB_OUTPUT
-            exit 1
-          fi
+  #     - name: Run GPT interaction script
+  #       id: generation
+  #       run: |
+  #         chmod u+x ./scripts/script.sh
+  #         # bash ./scripts/script.sh 
+  #         # Add error handling
+  #         if ! bash ./scripts/script.sh; then
+  #           echo "status=failed" >> $GITHUB_OUTPUT
+  #           exit 1
+  #         fi
 
-          # Verify files were generated
-          if [ ! "$(ls -A ./autocoder-bot/)" ]; then
-            echo "No files were generated in ./autocoder-bot/"
-            exit 1
-          fi
-          echo "status=success" >> $GITHUB_OUTPUT
+  #         # Verify files were generated
+  #         if [ ! "$(ls -A ./autocoder-bot/)" ]; then
+  #           echo "No files were generated in ./autocoder-bot/"
+  #           exit 1
+  #         fi
+  #         echo "status=success" >> $GITHUB_OUTPUT
 
-      - name: List generated files
-        run: |
-          echo "Generated files in autocoder-bot"
-          ls -la ./autocoder-bot/    
+  #     - name: List generated files
+  #       run: |
+  #         echo "Generated files in autocoder-bot"
+  #         ls -la ./autocoder-bot/    
           
-      - name: Upload artifact
-        uses: actions/upload-artifact@v4
-        with:
-          name: autocoder-artifact
-          path: |
-            ./autocoder-bot/
-          if-no-files-found: error
-          retention-days: 1
+  #     - name: Upload artifact
+  #       uses: actions/upload-artifact@v4
+  #       with:
+  #         name: autocoder-artifact
+  #         path: |
+  #           ./autocoder-bot/
+  #         if-no-files-found: error
+  #         retention-days: 1
         
 
 
   handle_artifacts:
-    needs: [process_issue, generate_code]
+    needs: [process_issue]
     runs-on: ubuntu-latest
     timeout-minutes: 5
     if: contains(github.event.issue.labels.*.name, 'autocoder-bot') 
