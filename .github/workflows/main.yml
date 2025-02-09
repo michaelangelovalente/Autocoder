@@ -96,7 +96,7 @@ jobs:
         id: prepare-directory
         run: |
           # directory for generated code from autobot
-          mkdir -p ./autocoder-artifact
+          mkdir -p ./autocoder-bot
 
       - name: Run GPT interaction script
         id: generation
@@ -110,23 +110,23 @@ jobs:
           fi
 
           # Verify files were generated
-          if [ ! "$(ls -A ./autocoder-artifact/)" ]; then
-            echo "No files were generated in ./autocoder-artifact/"
+          if [ ! "$(ls -A ./autocoder-bot/)" ]; then
+            echo "No files were generated in ./autocoder-bot/"
             exit 1
           fi
           echo "status=success" >> $GITHUB_OUTPUT
 
       - name: List generated files
         run: |
-          echo "Generated files in autocder-bot"
-          ls -la ./autocoder-artifact/    
+          echo "Generated files in autocoder-bot"
+          ls -la ./autocoder-bot/    
           
       - name: Upload artifact
         uses: actions/upload-artifact@v4
         with:
           name: autocoder-artifact
           path: |
-            ./autocoder-artifact/
+            ./autocoder-bot/
           if-no-files-found: error
           retention-days: 1
         
@@ -146,17 +146,17 @@ jobs:
         uses: actions/download-artifact@v4
         with: 
           name: autocoder-artifact
-          path: ./autocoder-artifact/
+          path: ./autocoder-bot/
       - name: Verify Download 
         run: |
-         if [ ! -d "./autocoder-artifact" ]; then
-          echo "Error: Artifact directory not found"
+         if [ ! -d "./autocoder-bot" ]; then
+          echo "Error: Artifact directory called autocoder-bot not found"
           exit 1
          fi
 
       - name: Display results
         run: |
-          echo "Generated files in artifact autocoder artifact directory:"
-          ls -laR ./autocoder-artifact || echo "Failed to list autocoder artifact"
+          echo "Generated files in artifact autocoder-bot directory:"
+          ls -laR ./autocoder-bot || echo "Failed to list autocoder artifact"
 
   
