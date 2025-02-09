@@ -153,18 +153,11 @@ jobs:
       - name: Pre Display results - downloaded artifacts
         run: |
           echo "List data autocoder bot:"
-          ls -alR ./autocoder-bot
+          ls -alR ./autocoder-bot/
           echo "list downloaded artifacts:"
-          ls -la ./autocoder-artifact || echo "autocoder-artifact directory not found"
-          echo "Current directory:"
-          pwd 
-          ls -la
 
       - name: Display results
         run: |
-          echo "Generated files in artifact directory:"
-          ls -laR ./autocoder-artifact || echo "Failed to list autocoder artifact"
-
           echo "Generated files in artifact autcoder bot directory:"
           ls -laR ./autocoder-bot || echo "Failed to list autocoder artifact"
 
