@@ -1,10 +1,10 @@
 #!/bin/bash
 
 # Exit immediately if a command exits with a non-zero status.
-set -e
+# set -e
 
 # log every command
-set -x
+# set -x
 
 # Get inputs from the environment
 # GITHUB_TOKEN="$1"
