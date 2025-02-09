@@ -148,7 +148,7 @@ jobs:
         uses: actions/download-artifact@v4
         with: 
           name: autocoder-artifact-test-upload
-          path: ./autcoder-artifact
+          path: ./autcoder-bot/
 
       - name: Pre Display results - downloaded artifacts
         run: |
@@ -165,5 +165,7 @@ jobs:
           echo "Generated files in artifact directory:"
           ls -laR ./autocoder-artifact || echo "Failed to list autocoder artifact"
 
+          echo "Generated files in artifact autcoder bot directory:"
+          ls -laR ./autocoder-bot || echo "Failed to list autocoder artifact"
 
   
