@@ -33,32 +33,13 @@ jobs:
             echo "has_label=false" >> $GITHUB_OUTPUT
           fi   
   
-  # check_labels_output_test:
-  #   runs-on: ubuntu-latest
-  #   # timeout-minutes: 5
-  
-  #   steps:
-  #     - name: Checkout repository for Process Issue
-  #       uses: actions/checkout@v4
-  #       # with:
-  #       #   fetch-depth: 1 # Shallow clone for faster checkout
-
-  #     - name: Check output
-  #       id: output_check
-  #       run: |
-  #         echo "Has label result: ${{ check_labels_autocoder_bot.should_run }}"
-      
   process_issue:
-    needs: check_labels_autocoder_bot
-    if: needs.check_labels_autocoder_bot.outputs.should_run == 'true'
     runs-on: ubuntu-latest
     # timeout-minutes: 5
-  
+    if: contains(github.event.issue.labels.*.name, 'autocoder-bot')
     steps:
       - name: Checkout repository for Process Issue
         uses: actions/checkout@v4
-        # with:
-        #   fetch-depth: 1 # Shallow clone for faster checkout
 
       - name: Validate issue information
         id: validate
@@ -75,9 +56,7 @@ jobs:
   generate_code: 
     needs: process_issue
     runs-on: ubuntu-latest
-    # timeout-minutes: 10
-    if: needs.process_issue.result == 'success'
-    
+    if: contains(github.event.issue.labels.*.name, 'autocoder-bot') 
     outputs:
       generation_status: ${{ steps.generation.outputs.status }}
     
@@ -136,10 +115,7 @@ jobs:
     needs: [process_issue, generate_code]
     runs-on: ubuntu-latest
     timeout-minutes: 5
-    if: |
-      needs.generate_code.outputs.generation_status == 'success' &&
-      needs.process_issue.result == 'success'
-    
+    if: contains(github.event.issue.labels.*.name, 'autocoder-bot') 
     steps: 
       # Step 0 Download the artifacts
       - name: Download artificats
