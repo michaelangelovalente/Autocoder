@@ -26,6 +26,12 @@ jobs:
       - name: Checkout repository for Process Issue
         uses: actions/checkout@v4
 
+      - name: Make script executable
+        run: chmod +x ./scripts/script.sh
+      
+      - name: Run the script
+        run: ./scripts/script.sh  
+
       - name: Validate issue information
         id: validate
         run: |
@@ -37,6 +43,17 @@ jobs:
           # Output issue information for logging
           echo "issue_number=${ISSUE_NUMBER}" >> $GITHUB_OUTPUT
           echo "has_required_label=${{ contains(env.ISSUE_LABELS, 'autocoder-bot') }}" >> $GITHUB_OUTPUT
+      
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: autocoder-artifact
+          path: ./autocoder-bot/
+          if-no-files-found: error
+      
+      - name: List files recursively
+        run: ls -R ./autocoder-bot/
+
 
   generate_code: 
     needs: process_issue
