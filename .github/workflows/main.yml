@@ -148,7 +148,13 @@ jobs:
         uses: actions/download-artifact@v4
         with: 
           name: autocoder-artifact-test-upload
-          path: ./autcoder-bot/
+          path: ./autocoder-bot/
+      - name: Verify Download 
+        run: |
+         if [ ! -d "./autocoder-bot" ]; then
+          echo "Error: Artifact directory not found"
+          exit 1
+         fi
 
       - name: Pre Display results - downloaded artifacts
         run: |
