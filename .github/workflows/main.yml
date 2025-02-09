@@ -112,7 +112,7 @@ jobs:
           fi
 
           # Verify files were generated
-          if [ !"$(ls -A ./autocoder-bot)" ]; then
+          if [ ! "$(ls -A ./autocoder-bot/)" ]; then
             echo "No files were generated in ./autocoder-bot/"
             exit 1
           fi
