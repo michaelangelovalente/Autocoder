@@ -31,7 +31,7 @@ jobs:
          chmod +x ./scripts/script.sh
 
       - name: Run the script 
-        run: ./scripts/script.sh
+        run: ./scripts/script.sh $
 
       - name: Validate issue information
         id: validate
