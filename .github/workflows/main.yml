@@ -30,8 +30,8 @@ jobs:
         run: |
          chmod +x ./scripts/script.sh
 
-      - name: run_the_script
-        run: ./scripts.script.sh
+      - name: Run the script 
+        run: ./scripts/script.sh
 
       - name: Validate issue information
         id: validate

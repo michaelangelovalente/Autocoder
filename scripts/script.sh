@@ -7,10 +7,7 @@
 # set -x
 
 # Get inputs from the environment
-# GITHUB_TOKEN="$1"
 REPOSITORY=${REPO_NAME}
-# ISSUE_NUMBER="$3"
-# OPENAI_API_KEY="$4"
 
 # Initialize arrays to store filenames and directories
 declare -a GENERATED_FILES
@@ -23,13 +20,6 @@ fetch_issue_details() {
          "https://api.github.com/repos/$REPOSITORY/issues/$ISSUE_NUMBER"
 }
 
-# Function to send prompt to the ChatGPT model (OpenAI API)
-# send_prompt_to_chatgpt() {
-# curl -s -X POST "https://api.openai.com/v1/chat/completions" \
-#     -H "Authorization: Bearer $OPENAI_API_KEY" \
-#     -H "Content-Type: application/json" \
-#     -d "{\"model\": \"gpt-4\", \"messages\": $MESSAGES_JSON, \"max_tokens\": 500}"
-# }
 send_prompt_to_chatgpt() {
 curl -s -X POST "https://api.openai.com/v1/chat/completions" \
     -H "Authorization: Bearer $OPENAI_API_KEY" \
