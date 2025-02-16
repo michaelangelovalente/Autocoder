@@ -1,0 +1,27 @@
+{
+  "version": "3",
+  "services": {
+    "frontend": {
+      "image": "nginx:latest",
+      "ports": [
+        "80:80"
+      ],
+      "volumes": [
+        "./frontend:/usr/share/nginx/html"
+      ]
+    },
+    "backend": {
+      "image": "node:latest",
+      "ports": [
+        "3000:3000"
+      ],
+      "volumes": [
+        "./backend:/usr/src/app"
+      ]
+    }
+  },
+  "environment": {
+    "NODE_VERSION": "latest",
+    "NGINX_VERSION": "latest"
+  }
+}
