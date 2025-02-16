@@ -89,8 +89,10 @@ jobs:
       
       - name: Copy artifacts contents
         run: |
-          #Copy artifacts
+          # Copy artifacts
           cp -r ./autocoder-artifact autocoder-bot
+          # Delete autocoder artifact dir
+          rm -rf ./autocoder-artifact
       
       - name: Commit and push changes
         run: |
