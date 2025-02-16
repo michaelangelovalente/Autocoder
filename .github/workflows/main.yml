@@ -64,6 +64,8 @@ jobs:
         
   commit_generated_code:
     needs: [process_issue]
+    permissions:
+      contents: write
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repo
