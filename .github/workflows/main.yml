@@ -66,6 +66,7 @@ jobs:
     needs: [process_issue]
     permissions:
       contents: write
+      pull-requests: write
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repo
@@ -78,6 +79,7 @@ jobs:
           path: ./autocoder-artifact/
       
       - name: Configure Git
+      # TODO: replace with config --local
         run: |
           git config --global user.name 'autocoder-bot'
           git config --global user.email 'actions@github.com'
@@ -99,6 +101,13 @@ jobs:
           git add .
           git commit -m "Feat: add generated code for issue #${{ env.ISSUE_NUMBER }}"
           git push origin "autocoder-branch-${{ env.ISSUE_NUMBER }}"
-
+      
+      - name: Create a pull request
+        uses: peter-evans/create-pull-request@v7
+        with:
+          commit-message: "Test Pull update after commit 'Generated Code'"
+          branch: test-branch-pull-request
+           
+         
 
   
