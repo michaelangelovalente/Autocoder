@@ -106,7 +106,7 @@ jobs:
         uses: peter-evans/create-pull-request@v7
         with:
           commit-message: "Test Pull update after commit 'Generated Code'"
-          branch: test-branch-pull-request
+          branch: main 
            
          
 
