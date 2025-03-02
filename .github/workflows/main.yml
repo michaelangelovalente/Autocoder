@@ -86,7 +86,7 @@ jobs:
 
       - name: Create and checkout new branch
         run: |
-          branch_name="autocoder-branch-${{ env.ISSUE_NUMBER }}"
+          branch_name="autocoder-branch-test-${{ env.ISSUE_NUMBER }}"
           git checkout -b $branch_name
       
       - name: Copy artifacts contents
