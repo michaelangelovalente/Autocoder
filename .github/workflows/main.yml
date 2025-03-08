@@ -81,12 +81,14 @@ jobs:
       - name: Configure Git
       # TODO: replace with config --local
         run: |
-          git config --global user.name 'autocoder-bot'
-          git config --global user.email 'actions@github.com'
+          git config --local user.name 'autocoder-bot'
+          git config --local user.email 'actions@github.com'
+#          git config --global user.name 'autocoder-bot'
+#          git config --global user.email 'actions@github.com'
 
       - name: Create and checkout new branch
         run: |
-          branch_name="autocoder-branch-test-${{ env.ISSUE_NUMBER }}"
+          branch_name="autocoder-branch-${{ env.ISSUE_NUMBER }}"
           git checkout -b $branch_name
       
       - name: Copy artifacts contents
@@ -100,13 +102,14 @@ jobs:
         run: |
           git add .
           git commit -m "Feat: add generated code for issue #${{ env.ISSUE_NUMBER }}"
-          git push origin "autocoder-branch-test-${{ env.ISSUE_NUMBER }}"
+          git push origin "autocoder-branch-${{ env.ISSUE_NUMBER }}"
       
       - name: Create a pull request
         uses: peter-evans/create-pull-request@v7
         with:
           commit-message: "Test Pull update after commit 'Generated Code'"
-          branch: main 
+          base: main
+          # branch: main 
            
          
 
