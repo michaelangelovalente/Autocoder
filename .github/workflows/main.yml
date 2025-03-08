@@ -73,6 +73,7 @@ jobs:
          cp -r ./autocoder-artifact/* ./       
          # Delete autocoder artifact directory
          rm -rf ./autocoder-artifact
+         mv autocoder-bot autocoder-artifact
 
       - name: Create Pull Request   
         uses: peter-evans/create-pull-request@v7
