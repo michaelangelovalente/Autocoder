@@ -61,55 +61,79 @@ jobs:
       - name: List files recursively
         run: ls -R ./autocoder-artifact/
 
-        
-  commit_generated_code:
-    needs: [process_issue]
-    permissions:
-      contents: write
-      pull-requests: write
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout repo
-        uses: actions/checkout@v4
-
-      - name: Download artifact
-        uses: actions/download-artifact@v4
-        with: 
-          name: autocoder-artifact
-          path: ./autocoder-artifact/
-      
-      - name: Configure Git
-      # TODO: replace with config --local
+      - name: Configure Git  
         run: |
           git config --local user.name 'autocoder-bot'
           git config --local user.email 'actions@github.com'
+      
+      - name: Create and checkout new branc
+        run: |
+         # Copy artifacts
+         cp -r ./aucoder-artifact autocoder-bot          
+         # Delete autocoder artifact di
+         rm -rf ./autocoder-artifact
+
+      - name: Commit and push changes
+        run: |
+         git add .
+         git commit -m "Feat: add generated code for issue #${{ env.ISSUE_NUMBER }}"
+         git push origin "autocoder-branch-${{ env.ISSUE_NUMBER }}"
+
+      - name: Create Pull Request   
+        uses: peter-evans/create-pull-request@v7
+        with:
+          commit-message: "Pull request added generated code for issue #${{ env.ISSUE_NUMBER }}"
+          base: main
+
+        
+  # commit_generated_code:
+  #   needs: [process_issue]
+  #   permissions:
+  #     contents: write
+  #     pull-requests: write
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     - name: Checkout repo
+  #       uses: actions/checkout@v4
+
+      # - name: Download artifact
+      #   uses: actions/download-artifact@v4
+      #   with: 
+      #     name: autocoder-artifact
+      #     path: ./autocoder-artifact/
+      
+      # - name: Configure Git
+      # # TODO: replace with config --local
+      #   run: |
+      #     git config --local user.name 'autocoder-bot'
+      #     git config --local user.email 'actions@github.com'
 #          git config --global user.name 'autocoder-bot'
 #          git config --global user.email 'actions@github.com'
 
-      - name: Create and checkout new branch
-        run: |
-          branch_name="autocoder-branch-${{ env.ISSUE_NUMBER }}"
-          git checkout -b $branch_name
+      # - name: Create and checkout new branch
+      #   run: |
+      #     branch_name="autocoder-branch-${{ env.ISSUE_NUMBER }}"
+      #     git checkout -b $branch_name
       
-      - name: Copy artifacts contents
-        run: |
-          # Copy artifacts
-          cp -r ./autocoder-artifact autocoder-bot
-          # Delete autocoder artifact dir
-          rm -rf ./autocoder-artifact
+      # - name: Copy artifacts contents
+      #   run: |
+      #     # Copy artifacts
+      #     cp -r ./autocoder-artifact autocoder-bot
+      #     # Delete autocoder artifact dir
+      #     rm -rf ./autocoder-artifact
       
-      - name: Commit and push changes
-        run: |
-          git add .
-          git commit -m "Feat: add generated code for issue #${{ env.ISSUE_NUMBER }}"
-          git push origin "autocoder-branch-${{ env.ISSUE_NUMBER }}"
+      # - name: Commit and push changes
+      #   run: |
+      #     git add .
+      #     git commit -m "Feat: add generated code for issue #${{ env.ISSUE_NUMBER }}"
+      #     git push origin "autocoder-branch-${{ env.ISSUE_NUMBER }}"
       
-      - name: create_pull_request
-        uses: peter-evans/create-pull-request@v7
-        with:
-          commit-message: "Test Pull update after commit 'Generated Code'"
-          base: main
-          # branch: main 
+      # - name: create_pull_request
+      #   uses: peter-evans/create-pull-request@v7
+      #   with:
+      #     commit-message: "Test Pull update after commit 'Generated Code'"
+      #     base: main
+      #     # branch: main 
            
          
 
