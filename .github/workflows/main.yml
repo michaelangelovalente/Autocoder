@@ -104,7 +104,7 @@ jobs:
           git commit -m "Feat: add generated code for issue #${{ env.ISSUE_NUMBER }}"
           git push origin "autocoder-branch-${{ env.ISSUE_NUMBER }}"
       
-      - name: Create a pull request
+      - name: create_pull_request
         uses: peter-evans/create-pull-request@v7
         with:
           commit-message: "Test Pull update after commit 'Generated Code'"
