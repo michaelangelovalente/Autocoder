@@ -66,7 +66,12 @@ jobs:
           git config --local user.name 'autocoder-bot'
           git config --local user.email 'actions@github.com'
       
-      - name: Create and checkout new branch
+      - name: Create and Checkout new branch
+        run: |
+          branch_name="autocoder-branch-${{ env.ISSUE_NUMBER }}"
+          git checkout -b $branch_name
+      
+      - name: Copy artifacts contents
         run: |
          # Copy artifacts
          cp -r ./autocoder-artifact autocoder-bot          
