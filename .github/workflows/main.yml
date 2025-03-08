@@ -66,10 +66,6 @@ jobs:
           git config --local user.name 'autocoder-bot'
           git config --local user.email 'actions@github.com'
       
-      # - name: Create and Checkout new branch
-      #   run: |
-      #     branch_name="autocoder-branch-${{ env.ISSUE_NUMBER }}"
-      #     git checkout -b $branch_name
       
       - name: Copy artifacts contents
         run: |
@@ -77,12 +73,6 @@ jobs:
          cp -r ./autocoder-artifact autocoder-bot          
          # Delete autocoder artifact di
          rm -rf ./autocoder-artifact
-
-      # - name: Commit and push changes
-      #   run: |
-      #    git add .
-      #    git commit -m "Feat: add generated code for issue #${{ env.ISSUE_NUMBER }}"
-      #    git push origin "autocoder-branch-${{ env.ISSUE_NUMBER }}"
 
       - name: Create Pull Request   
         uses: peter-evans/create-pull-request@v7
