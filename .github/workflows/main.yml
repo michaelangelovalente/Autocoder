@@ -87,7 +87,7 @@ jobs:
         run: |
           git add .
           git commit -m "Feat: Commit generated code for issue #${{ env.ISSUE_NUMBER }}"
-          git push origin "autocoder-branch-${{ env.ISSUE_NUMBER }}"
+          # git push origin "autocoder-branch-${{ env.ISSUE_NUMBER }}"
 
       - name: Create Pull Request
         id: cpr
