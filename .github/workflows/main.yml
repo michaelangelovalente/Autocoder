@@ -8,13 +8,13 @@ on:
   issues:
     types: [opened, reopened, labeled]
 env:
-    ISSUE_TITLE: ${{ github.event.issue.title }}
+    ISSUE_TITLE: ${{ github.event.issue.title }} #TODO: remove???
     ISSUE_NUMBER: ${{ github.event.issue.number }}
     ISSUE_BODY: ${{ github.event.issue.body }}
     ISSUE_ASSIGNEES: ${{ join(github.event.issue.assignees.*.login, ', ') }}
     ISSUE_LABELS: ${{ join(github.event.issue.labels.*.name, ', ') }}
 
-    REPO_NAME: ${{github.repository}}
+    REPO_NAME: ${{github.repository}} #TODO: remove???
     # ISSUE_NUM: ${{github.event.issue.number}}
     OPENAI_API_KEY: ${{secrets.OPENAI_KEY}}
     GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
