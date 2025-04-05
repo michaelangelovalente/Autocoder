@@ -65,17 +65,6 @@ runs:
     #     echo "Script file details: $(ls -la ${{ github.action_path }}/scripts/script.sh)"
     #     echo "Script file contents: $(cat ${{ github.action_path }}/scripts/script.sh)"
 
-    - name: Make script executable
-      shell: bash
-      run: |
-        echo "RUNNING SCRIPT 1"
-        pwd
-        echo "----------------------"
-        ls -A
-        echo "----------------------"
-        tree
-        echo "----------------------"
-        chmod +x ${{ github.action_path }}/scripts/script.sh
 
     - name: Set environment variables
       shell: bash
@@ -90,6 +79,18 @@ runs:
         echo "OPENAI_API_KEY=${{ inputs.openai_api_key }}" >> $GITHUB_ENV
         echo "GITHUB_TOKEN=${{ inputs.github_token }}" >> $GITHUB_ENV
     
+    - name: Make script executable
+      shell: bash
+      run: |
+        echo "RUNNING SCRIPT 1"
+        pwd
+        echo "----------------------"
+        ls -A
+        echo "----------------------"
+        tree
+        echo "----------------------"
+        chmod +x ${{ github.action_path }}/scripts/script.sh
+
     - name: Validate issue information
       id: validate
       shell: bash
