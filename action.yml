@@ -58,8 +58,8 @@ runs:
     - name: Make script executable
       shell: bash
       run: |
+        echo "RUNNING SCRIPT 1"
         chmod +x ${{ github.action.path }}/scripts/script.sh
-#        # chmod +x ./scripts/script.sh
 
     - name: Set environment variables
       shell: bash
@@ -89,7 +89,9 @@ runs:
 
     - name: Run the script
       shell: bash
-      run: ${{ github.action_path }}/scripts/script.sh $
+      run: |
+        echo "RUNNING SCRIPT 2"
+        ${{ github.action_path }}/scripts/script.sh $
 
   
     - name: Upload artifact
