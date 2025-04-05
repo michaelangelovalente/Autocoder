@@ -1,3 +1,5 @@
+# IN PROGRESS: https://claude.ai/chat/379f7916-9ab8-4bff-8c81-f07bbd1a5719
+# https://github.com/michaelangelovalente/test-seperate-action-repo/actions/runs/14154020418/job/39650858593
 name: 'Autocoder Bot Action'
 description: 'This action automates the process of generating code from Gtihub issues using taking advante of OpenAIs Chatgpt.
               It creates a pull request with the generated code allowing for a review before integrating it with the existing code'
@@ -36,6 +38,8 @@ inputs:
 outputs:
   pull_request_url:
     description: 'The URL of the pull request that has been automatically created, containing the auto-generated code for review and potential merging.'
+  pull_request_number:
+    description: 'The number of the created pull request.'
 
 
 runs:
@@ -54,7 +58,8 @@ runs:
     - name: Make script executable
       shell: bash
       run: |
-        chmod +x ./scripts/script.sh
+        chmod +x ${{ github.action.path }}/scripts/script.sh
+#        # chmod +x ./scripts/script.sh
 
     - name: Set environment variables
       shell: bash
@@ -146,7 +151,7 @@ runs:
       id: set_outputs
       shell: bash
       run: |
-        echo "pull_request_url${{ steps.cpr.outputs.pull-request-url }}" >> $GITHUB_OUTPUT
+        echo "pull_request_url=${{ steps.cpr.outputs.pull-request-url }}" >> $GITHUB_OUTPUT
         echo "pull_request_number=${{ steps.cpr.outputs.pull-request-number }}" >> $GITHUB_OUTPUT
 
 
