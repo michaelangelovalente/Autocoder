@@ -89,7 +89,7 @@ runs:
 
     - name: Run the script
       shell: bash
-      run: ./scripts/script.sh $
+      run: ${{ github.action_path }}/scripts/script.sh $
 
   
     - name: Upload artifact
