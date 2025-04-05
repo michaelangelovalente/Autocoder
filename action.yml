@@ -55,6 +55,16 @@ runs:
       env:
         GITHUB_ACTION_PATH: ${{ github.action_path }}
 
+    - name: Debug Environment
+      shell: bash
+      run: |
+        echo "Current location: $(pwd)"
+        echo "Action path: ${{ github.action_path }}"
+        echo "Files in action path: $(ls -la ${{ github.action_path }})"
+        echo "Scripts directory: $(ls -la ${{ github.action_path }}/scripts)"
+        echo "Script file details: $(ls -la ${{ github.action_path }}/scripts/script.sh)"
+        echo "Script file contents: $(cat ${{ github.action_path }}/scripts/script.sh)"
+
     - name: Make script executable
       shell: bash
       run: |
