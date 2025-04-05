@@ -70,7 +70,12 @@ runs:
       shell: bash
       run: |
         echo "ISSUE_NUMBER=${{ inputs.issue_number }}" >> $GITHUB_ENV
-        echo "ISSUE_BODY=${{ inputs.issue_body }}" >> $GITHUB_ENV
+
+        # Github actions needs EOF delimiters for multiline env variables.
+        echo "ISSUE_BODY<<EOF" >> $GITHUB_ENV
+        echo "${{ inputs.issue_body }}" >> $GITHUB_ENV
+        echo "EOF" >> $GITHUB_ENV
+
         echo "ISSUE_ASSIGNEES=${{ inputs.issue_assignees }}" >> $GITHUB_ENV
         echo "ISSUE_LABEL=${{ inputs.issue_label }}" >> $GITHUB_ENV
         echo "ISSUE_ASSIGNED_LABELS=${{ inputs.issue_assigned_labels }}" >> $GITHUB_ENV
