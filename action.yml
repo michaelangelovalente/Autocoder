@@ -59,6 +59,8 @@ runs:
       shell: bash
       run: |
         echo "RUNNING SCRIPT 1"
+        ls -A
+        tree
         chmod +x ${{ github.action_path }}/scripts/script.sh
 
     - name: Set environment variables
