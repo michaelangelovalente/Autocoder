@@ -6,27 +6,27 @@ author: 'Michael Valente'
 
 inputs:
   #issue_title???
-  issue_number:
+  ISSUE_NUMBER:
     description: 'The number of the issue that will be used to trigger the action'
     required: true
-  issue_body:
+  ISSUE_BODY:
     description: 'Body of the issue'
     required: true
-  issue_assignees:
+  ISSUE_ASSIGNEES:
     description: 'Issue assignees'
     required: true
-  issue_label:
+  ISSUE_LABEL:
     description: 'The label assigned to Github issue that should be processed by the AutoCoder action. Only issues with this label will trigger the code generation process.'
     required: true
     default: 'autocoder-bot'
-  issue_assigned_labels:
+  ISSUE_ASSIGNED_LABELS:
     description: 'The labels assigned to the github issue, will be compared with issue_label'
     required: true
     default: 'autocoder-bot'
-  repository:
+  REPOSITORY:
     description: 'The repository where the action will be executed'
     required: true
-  openai_api_key:
+  OPENAI_API_KEY:
     description: 'Api key for OpenAI, allows interactions with ChatGPT api used to generate code based on the issue description'
     required: true
   GITHUB_TOKEN:
@@ -67,19 +67,19 @@ runs:
     - name: Set environment variables
       shell: bash
       run: |
-        echo "ISSUE_NUMBER=${{ inputs.issue_number }}" >> $GITHUB_ENV
+        echo "ISSUE_NUMBER=${{ inputs.ISSUE_NUMBER }}" >> $GITHUB_ENV
 
         # Github actions needs EOF delimiters for multiline env variables.
         echo "ISSUE_BODY<<EOF" >> $GITHUB_ENV
-        echo "${{ inputs.issue_body }}" >> $GITHUB_ENV
+        echo "${{ inputs.ISSUE_BODY }}" >> $GITHUB_ENV
         echo "EOF" >> $GITHUB_ENV
 
         echo "ISSUE_ASSIGNEES=${{ inputs.issue_assignees }}" >> $GITHUB_ENV
-        echo "ISSUE_LABEL=${{ inputs.issue_label }}" >> $GITHUB_ENV
-        echo "ISSUE_ASSIGNED_LABELS=${{ inputs.issue_assigned_labels }}" >> $GITHUB_ENV
+        echo "ISSUE_LABEL=${{ inputs.ISSUE_LABEL }}" >> $GITHUB_ENV
+        echo "ISSUE_ASSIGNED_LABELS=${{ inputs.ISSUE_ASSIGNED_LABELS }}" >> $GITHUB_ENV
 
-        echo "REPOSITORY=${{ inputs.repository }}" >> $GITHUB_ENV
-        echo "OPENAI_API_KEY=${{ inputs.openai_api_key }}" >> $GITHUB_ENV
+        echo "REPOSITORY=${{ inputs.REPOSITORY }}" >> $GITHUB_ENV
+        echo "OPENAI_API_KEY=${{ inputs.OPENAI_API_KEY }}" >> $GITHUB_ENV
         echo "GITHUB_TOKEN=${{ inputs.GITHUB_TOKEN }}" >> $GITHUB_ENV
     
     - name: Make script executable
@@ -105,7 +105,7 @@ runs:
         fi
         # Output issue information for logging
         echo "issue_number=${ISSUE_NUMBER}" >> $GITHUB_OUTPUT
-        echo "has_required_label=${{ contains(inputs.issue_assigned_labels, inputs.issue_label) }}" >> $GITHUB_OUTPUT
+        echo "has_required_label=${{ contains(inputs.ISSUE_ASSIGNED_LABELS, inputs.ISSUE_LABEL) }}" >> $GITHUB_OUTPUT
 
     - name: Run the script
       shell: bash
