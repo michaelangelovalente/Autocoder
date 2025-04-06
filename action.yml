@@ -1,4 +1,4 @@
-name: 'Autocoder Bot Action'
+name: 'Autocoder'
 description: 'This action automates the process of generating code from Gtihub issues using taking advante of OpenAIs Chatgpt.
               It creates a pull request with the generated code allowing for a review before integrating it with the existing code'
 
