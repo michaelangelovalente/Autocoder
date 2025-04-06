@@ -29,7 +29,7 @@ inputs:
   openai_api_key:
     description: 'Api key for OpenAI, allows interactions with ChatGPT api used to generate code based on the issue description'
     required: true
-  github_token:
+  GITHUB_TOKEN:
     description: 'Personal Access token (PAT) used for Github API authentication. This token is required to create pull requests'
     required: true
 
@@ -80,7 +80,7 @@ runs:
 
         echo "REPOSITORY=${{ inputs.repository }}" >> $GITHUB_ENV
         echo "OPENAI_API_KEY=${{ inputs.openai_api_key }}" >> $GITHUB_ENV
-        echo "GITHUB_TOKEN=${{ inputs.github_token }}" >> $GITHUB_ENV
+        echo "GITHUB_TOKEN=${{ inputs.GITHUB_TOKEN }}" >> $GITHUB_ENV
     
     - name: Make script executable
       shell: bash
