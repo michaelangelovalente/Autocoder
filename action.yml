@@ -15,7 +15,7 @@ inputs:
   ISSUE_ASSIGNEES:
     description: 'Issue assignees'
     required: true
-  ISSUE_LABEL:
+  LABEL:
     description: 'The label assigned to Github issue that should be processed by the AutoCoder action. Only issues with this label will trigger the code generation process.'
     required: true
     default: 'autocoder-bot'
@@ -32,6 +32,10 @@ inputs:
   GITHUB_TOKEN:
     description: 'Personal Access token (PAT) used for Github API authentication. This token is required to create pull requests'
     required: true
+  SCRIPT_PATH:
+    description: 'The path to the script that interacts with ChatGPT and generates the code'
+    required: false
+  
 
 outputs:
   pull_request_url:
